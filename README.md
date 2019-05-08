@@ -1,2 +1,6 @@
-# NavigationDrawerAndViewPager
-Combining NavigationDrawer and ViewPager in one screen in Android
+# Drinking application
+
+## Colors
+#001445  - dark blue
+#387edc  - light blue
+#ffffff  - white
