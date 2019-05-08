@@ -1,9 +1,25 @@
 <resources>
-    <string name="app_name">DrinkingApplication</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">NavigationDrawer and ViewPager</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
+    <string-array name="my_items">
+        <item>Dummy Item 1</item>
+        <item>Dummy Item 2</item>
+        <item>Dummy Item 3</item>
+        <item>Dummy Item 4</item>
+        <item>Dummy Item 5</item>
+        <item>Dummy Item 6</item>
+        <item>Dummy Item 7</item>
+        <item>Dummy Item 8</item>
+        <item>Dummy Item 9</item>
+        <item>Dummy Item 10</item>
+        <item>Dummy Item 11</item>
+        <item>Dummy Item 12</item>
+        <item>Dummy Item 13</item>
+        <item>Dummy Item 14</item>
+
+
+
+    </string-array>
 </resources>
