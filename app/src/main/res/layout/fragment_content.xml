@@ -1,21 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewAddDrink"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:padding="@dimen/activity_horizontal_margin"
+    android:background="@color/darkBlue">
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="A TextView in Fragment" />
 
-    <Button
-        android:id="@+id/button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go to another Activity" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/edTx_drinkName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded2"
+                android:drawablePadding="16dp"
+                android:hint="Drink name"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="#000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_liters1"
+                    android:layout_width="69dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded1"
+                    android:padding="5dp"
+                    android:text="0.05l"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:layout_marginLeft="5dp"/>
+
+                <Button
+                    android:id="@+id/bt_liters2"
+                    android:layout_width="69dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/rounded1"
+                    android:padding="5dp"
+                    android:text="0.1l"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/bt_liters3"
+                    android:layout_width="69dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/rounded1"
+                    android:padding="5dp"
+                    android:text="0.33l"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/bt_liters4"
+                    android:layout_width="69dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/rounded1"
+                    android:padding="5dp"
+                    android:text="0.5l"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <Button
+                    android:id="@+id/bt_liters5"
+                    android:layout_width="69dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/rounded1"
+                    android:padding="5dp"
+                    android:text="1l"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_addDrink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rounded1"
+                android:onClick="addDrink"
+                android:padding="14dp"
+                android:text="ADD DRINK"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

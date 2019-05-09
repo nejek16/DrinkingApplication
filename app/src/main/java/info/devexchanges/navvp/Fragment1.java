@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Fragment1 extends Fragment {
@@ -20,9 +22,10 @@ public class Fragment1 extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button button = (Button) view.findViewById(R.id.button);
-        button.setVisibility(View.GONE);
-        TextView textView = (TextView)view.findViewById(R.id.text_view);
-        textView.setText("A TextView in Fragment");
+
+        //Hides view of other tab (fragment_content)
+        LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
+        contentFrag.setVisibility(View.GONE);
+
     }
 }
