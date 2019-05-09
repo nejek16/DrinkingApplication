@@ -38,10 +38,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setting Tab layout (number of Tabs = number of ViewPager pages)
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < pageTitle.length; i++) {
             tabLayout.addTab(tabLayout.newTab().setText(pageTitle[i]));
         }
-
         //set gravity for tab bar
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
