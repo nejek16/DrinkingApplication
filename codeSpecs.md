@@ -1,5 +1,16 @@
 # Code specifications
 ## Custom buttons
+### Aniations
+```JAVA
+   //When you want animatoin to occur call this function with instance of your button as argument
+    private void animateBt(Button bt){
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator());
+        fadeIn.setDuration(250);
+
+        bt.startAnimation(fadeIn);
+    }
+```
 ### Rounded
 ```XML
    <Button
