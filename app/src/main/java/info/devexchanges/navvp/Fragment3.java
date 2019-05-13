@@ -13,7 +13,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
+import info.devexchanges.navvp.DataStorage;
+
+import java.io.File;
 
 public class Fragment3 extends Fragment {
 
@@ -36,18 +42,24 @@ public class Fragment3 extends Fragment {
 
         bt.startAnimation(fadeIn);
     }
+
     Button bt_addDrink;
     Button bt_liter005;
     Button bt_liter01;
     Button bt_liter033;
     Button bt_liter05;
     Button bt_liter1;
+    EditText tx_quant;
+    EditText tx_alcoLvl;
+    EditText tx_price;
+    EditText tx_cal;
     private void init(View view){
         bt_addDrink=(Button) view.findViewById(R.id.bt_addDrink);
         bt_addDrink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 animateBt(bt_addDrink);
+
             }
         });
 
@@ -56,6 +68,7 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_liter005);
+                changeQuantityVal(0.05);
             }
         });
 
@@ -64,6 +77,7 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_liter01);
+                changeQuantityVal(0.1);
             }
         });
 
@@ -72,6 +86,7 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_liter033);
+                changeQuantityVal(0.33);
             }
         });
 
@@ -80,6 +95,7 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_liter05);
+                changeQuantityVal(0.5);
             }
         });
 
@@ -88,9 +104,19 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_liter1);
+                changeQuantityVal(1);
             }
         });
 
+
+        tx_quant=(EditText) view.findViewById(R.id.edTx_quant);
+        tx_alcoLvl=(EditText) view.findViewById(R.id.edTx_alcoLvl);
+        tx_price=(EditText) view.findViewById(R.id.edTx_price);
+        tx_cal=(EditText) view.findViewById(R.id.edTx_kcal);
+    }
+
+    private void changeQuantityVal(double value){
+        tx_quant.setText(String.valueOf(value));
     }
 
 }
