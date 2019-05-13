@@ -6,17 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class Fragment1 extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
@@ -24,8 +20,8 @@ public class Fragment1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Hides view of other tab (fragment_content)
-        LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
-        contentFrag.setVisibility(View.GONE);
+       // LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
+       // contentFrag.setVisibility(View.GONE);
 
     }
 }
