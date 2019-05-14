@@ -68,10 +68,15 @@
 ```JSON
 {
     "alcoID":0,
-    "alcohol":0.05,
-    "alcoName":"Lasko",
     "time":null,
-    "quantity":0.5
+    "drinkID":1,
+    "name":"Gin",
+    "alco": 0.40,
+    "icon": null,
+    "favorite": false,
+    "quantity":0.5,
+    "cost": 35.0,
+    "kcal":20
 }
 ```
 ### Default JSON for types of drinks
