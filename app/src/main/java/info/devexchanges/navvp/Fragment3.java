@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 //import info.devexchanges.navvp.DataStorage;
 
@@ -46,7 +47,27 @@ public class Fragment3 extends Fragment {
     EditText tx_alcoLvl;
     EditText tx_price;
     EditText tx_cal;
+    ImageView not_favourite;
+    ImageView favourite;
     private void init(View view){
+        not_favourite = (ImageView) view.findViewById(R.id.not_favourite);
+        not_favourite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                not_favourite.setVisibility(View.GONE);
+                favourite.setVisibility(View.VISIBLE);
+            }
+        });
+
+        favourite = (ImageView) view.findViewById(R.id.favourite);
+        favourite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                favourite.setVisibility(View.GONE);
+                not_favourite.setVisibility(View.VISIBLE);
+            }
+        });
+
         bt_addDrink=(Button) view.findViewById(R.id.bt_addDrink);
         bt_addDrink.setOnClickListener(new View.OnClickListener(){
             @Override
