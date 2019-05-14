@@ -37,16 +37,15 @@ public class DataStorage {
     public DataStorage(Context context){
         this.context=context;
     }
-
+    /**
+     True if user first opens application
+     */
     public boolean isFirstOpen(){
-        try {
-            JSONObject json=new JSONObject(readFile(basicData));
+            if(readFile(basicData)==null){
+                writeFile("{\"gender\":null, \"weight\":null, \"age\":null}",basicData);
+                return true;
+            }
             return false;
-        } catch (JSONException e) {
-            writeFile("{\"gender\":null, \"weight\":null, \"age\":null}","ATbasicData.json");
-            return true;
-
-        }
 
     }
 
@@ -54,6 +53,7 @@ public class DataStorage {
         try {
             JSONObject json =new JSONObject(readFile(basicData));
             json.put("age",age);
+            writeFile(json.toString(),basicData);
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
             e.printStackTrace();
@@ -64,6 +64,52 @@ public class DataStorage {
         try {
             JSONObject json =new JSONObject(readFile(basicData));
             return json.getInt("age");
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    /**
+     M=male;F=female
+     */
+    public void setGender(char s){
+        try {
+            JSONObject json =new JSONObject(readFile(basicData));
+            json.put("gender",s);
+            writeFile(json.toString(),basicData);
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+    }
+
+    public char getGender(){
+        try {
+            JSONObject json =new JSONObject(readFile(basicData));
+            return (char)json.getInt("gender");
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+        return 'X';
+    }
+
+    public void setWeight(double w){
+        try {
+            JSONObject json =new JSONObject(readFile(basicData));
+            json.put("weight",w);
+            writeFile(json.toString(),basicData);
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+    }
+
+    public double getWeight(){
+        try {
+            JSONObject json =new JSONObject(readFile(basicData));
+            return json.getDouble("weight");
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
             e.printStackTrace();
