@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/viewAddDrink"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,20 +14,25 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="638dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <EditText
+                android:layout_weight="1"
                 android:id="@+id/edTx_drinkName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded2"
                 android:drawablePadding="16dp"
@@ -34,114 +40,137 @@
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="#000" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_group"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/not_favourite"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="-20dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bt_liters1"
-                    android:layout_width="69dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded1"
-                    android:padding="5dp"
-                    android:text="0.05l"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13dp"
-                    android:layout_marginLeft="5dp"/>
-
-                <Button
-                    android:id="@+id/bt_liters2"
-                    android:layout_width="69dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounded1"
-                    android:padding="5dp"
-                    android:text="0.1l"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13dp" />
-
-                <Button
-                    android:id="@+id/bt_liters3"
-                    android:layout_width="69dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounded1"
-                    android:padding="5dp"
-                    android:text="0.33l"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13dp" />
-
-                <Button
-                    android:id="@+id/bt_liters4"
-                    android:layout_width="69dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounded1"
-                    android:padding="5dp"
-                    android:text="0.5l"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13dp" />
-
-                <Button
-                    android:id="@+id/bt_liters5"
-                    android:layout_width="69dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/rounded1"
-                    android:padding="5dp"
-                    android:text="1l"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="13dp" />
-
-
-            </LinearLayout>
-
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/not_favourite"
+                android:visibility="visible"/>
+            <ImageView
+                android:id="@+id/favourite"
+                android:layout_marginLeft="-10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="-20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/favourite"
+                android:visibility="gone"/>
+        </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_group"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
-                <EditText
-                    android:id="@+id/edTx_quant"
-                    android:layout_width="129dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
-                    android:background="@drawable/rounded2"
-                    android:drawablePadding="16dp"
-                    android:hint="Quantity"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"
-                    android:textColor="#000" />
+                    <Button
+                        android:id="@+id/bt_liters1"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounded1"
+                        android:padding="5dp"
+                        android:text="0.05l"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="liters"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
-                    android:textSize="20dp" />
+                    <Button
+                        android:id="@+id/bt_liters2"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounded1"
+                        android:padding="5dp"
+                        android:text="0.1l"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
+
+                    <Button
+                        android:id="@+id/bt_liters3"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounded1"
+                        android:padding="5dp"
+                        android:text="0.33l"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
+
+                    <Button
+                        android:id="@+id/bt_liters4"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounded1"
+                        android:padding="5dp"
+                        android:text="0.5l"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
+
+                    <Button
+                        android:id="@+id/bt_liters5"
+                        android:layout_width="69dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/rounded1"
+                        android:padding="5dp"
+                        android:text="1l"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="13dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edTx_quant"
+                        android:layout_width="129dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+
+                        android:background="@drawable/rounded2"
+                        android:drawablePadding="16dp"
+                        android:hint="Quantity"
+                        android:inputType="numberDecimal"
+                        android:padding="12dp"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="liters"
+                        android:textColor="@color/white"
+                        android:textSize="20dp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,10 +196,10 @@
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="‰"
                     android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
                     android:textSize="20dp" />
             </LinearLayout>
 
@@ -198,10 +227,10 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="€"
                     android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
                     android:textSize="20dp" />
             </LinearLayout>
 
@@ -230,33 +259,28 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="kcal"
                     android:textColor="@color/white"
-                    android:layout_marginTop="5dp"
                     android:textSize="20dp" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/bt_addDrink"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginRight="70dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/rounded1"
-                android:onClick="addDrink"
-                android:padding="14dp"
-                android:text="ADD DRINK"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
-
-
-
-
-
-
+                    <Button
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/bt_addDrink"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/rounded1"
+                        android:onClick="addDrink"
+                        android:padding="14dp"
+                        android:text="ADD DRINK"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
         </LinearLayout>
     </ScrollView>
 

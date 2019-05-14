@@ -26,6 +26,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DataStorage dataStorage = new DataStorage(this);
+        if(dataStorage.isFirstOpen()){
+            Intent intent = new Intent(this, DesActivity.class);
+            startActivity(intent);
+        }
+
+
         //action bar
 
         TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
