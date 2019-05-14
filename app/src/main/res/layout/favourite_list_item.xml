@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/list_item_thumbnail"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@drawable/beer" />
+
+    <TextView
+        android:layout_marginBottom="5dp"
+        android:id="@+id/list_item_drink"
+        android:layout_width="145dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/list_item_thumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/list_item_thumbnail"
+        android:layout_toRightOf="@id/list_item_thumbnail"
+        android:gravity="left|center_vertical"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:id="@+id/list_item_alco"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignBottom="@id/list_item_thumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/list_item_drink"
+        android:layout_toRightOf="@id/list_item_drink"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:textAlignment="center" />
+
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:id="@+id/list_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignBottom="@id/list_item_thumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@id/list_item_alco"
+        android:layout_toRightOf="@id/list_item_alco"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/drink_add"
+        app:srcCompat="@drawable/add"
+        android:layout_toEndOf="@id/list_item_price"
+        android:layout_toRightOf="@id/list_item_price"/>
+
+
+</RelativeLayout>
