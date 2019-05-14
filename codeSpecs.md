@@ -63,3 +63,41 @@
         android:layout_marginRight="20dp"
         android:drawablePadding="16dp"/>
 ```
+## JSONs
+### Default JSON -> CONSUMED
+```JSON
+{
+    "alcoID":0,
+    "alcohol":0.05,
+    "alcoName":"Lasko",
+    "time":null,
+    "quantity":0.5
+}
+```
+### Default JSON for types of drinks
+```JSON
+{
+  "drinks": [
+   {
+     "drinkID":0,
+     "name":"Jameson",
+     "alco": 0.40,
+     "icon": null,
+     "favorite": true,
+     "quantity":0.75,
+     "cost": 25.0,
+     "kcal":10
+   },
+   {
+     "drinkID":1,
+     "name":"Gin",
+     "alco": 0.40,
+     "icon": null,
+     "favorite": false,
+     "quantity":0.5,
+     "cost": 35.0,
+     "kcal":20
+   }
+  ]
+}
+```
