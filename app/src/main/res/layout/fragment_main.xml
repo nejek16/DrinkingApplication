@@ -5,7 +5,7 @@
     android:weightSum="2">
 
     <TextView
-        android:textSize="20dp"
+        android:textSize="23dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/txtFavorites"
@@ -28,8 +28,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"/>
     <TextView
-        android:textSize="20dp"
+        android:textSize="23dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/txtConsumed"

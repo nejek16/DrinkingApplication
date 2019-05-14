@@ -6,10 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Fragment1 extends Fragment {
 
@@ -19,10 +24,10 @@ public class Fragment1 extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
 
     }
-    int[] IMAGES = {R.drawable.beer,R.drawable.white_wine};
-    String[] DRINK_NAMES = {"Beer","White vine"};
-    String[] ALCO_LEVEL = {"5%","9%"};
-    String[] VOLUME = {"0.5l","0.2l"};
+    int[] IMAGES = {R.drawable.beer,R.drawable.white_wine,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer};
+    String[] DRINK_NAMES = {"Beer","White vine","Beer","Beer","Beer","Beer","Beer","Beer"};
+    String[] ALCO_LEVEL = {"5%","9%","5%","5%","5%","5%","5%","5%"};
+    String[] VOLUME = {"0.5l","0.2l","0.5l","0.5l","0.5l","0.5l","0.5l","0.5l"};
 
 
 
@@ -32,7 +37,6 @@ public class Fragment1 extends Fragment {
         init(view);
         ListView favList = (ListView) view.findViewById(R.id.favlist);
         CustomAdapter customadapter = new CustomAdapter();
-
         favList.setAdapter(customadapter);
 
         //Hides view of other tab (fragment_content)
@@ -49,7 +53,7 @@ public class Fragment1 extends Fragment {
         txtConsumed = (TextView) view.findViewById(R.id.txtConsumed);
         txtConsumed.setText("Consumed");
     }
-    class CustomAdapter extends BaseAdapter{
+    class CustomAdapter extends BaseAdapter implements View.OnClickListener {
 
         @Override
         public int getCount() {
@@ -67,10 +71,10 @@ public class Fragment1 extends Fragment {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             view = getActivity().getLayoutInflater().inflate(R.layout.favourite_list_item,null);
             ImageView icon =(ImageView)view.findViewById(R.id.list_item_thumbnail);
-            ImageView add =(ImageView)view.findViewById(R.id.drink_add);
+            final ImageView add =(ImageView)view.findViewById(R.id.drink_add);
             TextView drink = (TextView)view.findViewById(R.id.list_item_drink);
             TextView alcolvl = (TextView)view.findViewById(R.id.list_item_alco);
             TextView volume = (TextView)view.findViewById(R.id.list_item_price);
@@ -80,8 +84,29 @@ public class Fragment1 extends Fragment {
             drink.setText(DRINK_NAMES[i]);
             alcolvl.setText(ALCO_LEVEL[i]);
             volume.setText(VOLUME[i]);
+
+
+            add.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    animateBt(add);
+                    Toast.makeText(getActivity(), DRINK_NAMES[i], Toast.LENGTH_SHORT).show();
+                }
+
+            });
             return view;
         }
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+    private void animateBt(ImageView bt){
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator());
+        fadeIn.setDuration(250);
+
+        bt.startAnimation(fadeIn);
     }
 
 }
