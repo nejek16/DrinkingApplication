@@ -1,25 +1,19 @@
 package info.devexchanges.navvp;
 
 import android.content.Context;
-import android.util.JsonReader;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.NotActiveException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -45,6 +39,7 @@ public class DataStorage {
             if(dataB==null){
                 writeFile("{\"gender\":null, \"weight\":null, \"age\":null}",basicData);
                 writeFile("[]",consumed);
+                writeFile("[]",drinks);
                 return true;
             }
         try {
@@ -62,6 +57,7 @@ public class DataStorage {
     public void clearData(){
         writeFile("{\"gender\":null, \"weight\":null, \"age\":null}",basicData);
         writeFile("[]",consumed);
+        writeFile("[]",drinks);
     }
 
     public void setAge(int age){
@@ -70,7 +66,7 @@ public class DataStorage {
             json.put("age",age);
             writeFile(json.toString(),basicData);
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -80,7 +76,7 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return json.getInt("age");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return -1;
@@ -94,7 +90,7 @@ public class DataStorage {
             json.put("gender",s);
             writeFile(json.toString(),basicData);
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -104,7 +100,7 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return (char)json.getInt("gender");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return 'X';
@@ -126,14 +122,39 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return json.getDouble("weight");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return -1;
     }
 
-    public void addConsumed(){
+    public void test(){
+        String a=readFile(drinks);
+        Toast.makeText(context,a,Toast.LENGTH_LONG).show();
+    }
 
+    public void addConsumed(Date time,int drinkID,String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+        try {
+            int alcoID=getIdConsumed();
+            JSONArray json =new JSONArray(readFile(consumed));
+            json=json.put(new JSONObject("{\"alcoID\":"+alcoID+",\"time\":"+time+",\"drinkID\":"+drinkID+",\"name\":"+name+",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
+            writeFile(json.toString(),consumed);
+        } catch (Exception e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
+    }
+    public void removeConsumed(int alcoID){
+        try {
+            List<JSONObject> allConsumed=getConsumed();
+            for(int i=0;i<allConsumed.size();i++){
+                if(allConsumed.get(i).getInt("alcoID")==alcoID){
+                    allConsumed.remove(i);
+                }
+            }
+            writeFile(new JSONArray(allConsumed).toString(),consumed);
+        } catch (Exception e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
     }
     public List<JSONObject> getConsumed(){
         List<JSONObject> allConsumed=new ArrayList<JSONObject>();
@@ -143,7 +164,7 @@ public class DataStorage {
                 allConsumed.add(json.getJSONObject(i));
             }
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG).show();
             return null;
         }
         return allConsumed;
@@ -153,19 +174,70 @@ public class DataStorage {
      */
     private int getIdConsumed(){
         try {
-            JSONObject json =new JSONObject(readFile("ATconsumed.json"));
-
-            JSONArray cons =new JSONArray(json.get("consumed").toString());
-            String id=new JSONObject(cons.get(cons.length()).toString()).get("id").toString();
-            return Integer.parseInt(id)+1;
+            JSONArray json =new JSONArray(readFile(consumed));
+            if(json.length()==0){
+                return 0;
+            }
+            return json.getJSONObject(json.length()-1).getInt("alcoID")+1;
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG);
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return -1;
         }
 
     }
 
 
+    public void addDrink(String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+        try {
+            int drinkID=getIdDrink();
+            Toast.makeText(context,String.valueOf(drinkID),Toast.LENGTH_SHORT).show();
+            JSONArray json =new JSONArray(readFile(drinks));
+            json=json.put(new JSONObject("{\"drinkID\":"+drinkID+",\"name\":"+name+",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
+            writeFile(json.toString(),drinks);
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void removeDrink(int drinkID){
+        try {
+            List<JSONObject> allDrinks=getDrinks();
+            for(int i=0;i<allDrinks.size();i++){
+                if(allDrinks.get(i).getInt("drinkID")== drinkID){
+                    allDrinks.remove(i);
+                }
+            }
+            writeFile(new JSONArray(allDrinks).toString(),drinks);
+        } catch (Exception e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
+    }
+    public List<JSONObject> getDrinks(){
+        List<JSONObject> allDrinks=new ArrayList<JSONObject>();
+        try {
+            JSONArray json =new JSONArray(readFile(drinks));
+            for(int i=0;i<json.length();i++){
+                allDrinks.add(json.getJSONObject(i));
+            }
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            return null;
+        }
+        return allDrinks;
+    }
+    private int getIdDrink(){
+        try {
+            JSONArray json =new JSONArray(readFile(drinks));
+            if(json.length()==0){
+                return 0;
+            }
+            return json.getJSONObject(json.length()-1).getInt("drinkID")+1;
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            return -1;
+        }
+
+    }
     private void writeFile(String text,String path) {//make private
 
         try {
