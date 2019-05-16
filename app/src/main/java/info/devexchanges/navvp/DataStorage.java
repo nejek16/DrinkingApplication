@@ -188,7 +188,7 @@ public class DataStorage {
     }
 
 
-    public void addDrink(String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+    public void addDrink(String name,Double alco,int icon,Boolean favorite,Double quantity,Double cost,Double kcal){
         try {
             int drinkID=getIdDrink();
             JSONArray json =new JSONArray(readFile(drinks));

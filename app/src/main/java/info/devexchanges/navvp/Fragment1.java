@@ -242,7 +242,7 @@ public class Fragment1 extends Fragment {
                                 .setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
 
-
+                        ds.clearData();
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Failed at deleting consumed!",Toast.LENGTH_LONG).show();
