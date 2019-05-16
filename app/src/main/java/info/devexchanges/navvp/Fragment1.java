@@ -1,5 +1,7 @@
 package info.devexchanges.navvp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,18 +50,22 @@ public class Fragment1 extends Fragment {
     List<JSONObject> consumed;
     DataStorage ds;
 
-    
+    ListView conList;
+
+    int alcoID_tmp=-1;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         ListView favList = (ListView) view.findViewById(R.id.favlist);
-        ListView conList = (ListView) view.findViewById(R.id.conlist);
+        conList = (ListView) view.findViewById(R.id.conlist);
         CustomAdapterFav customadapterfav = new CustomAdapterFav();
         CustomAdapterCon customadaptercon = new CustomAdapterCon();
 
         favList.setAdapter(customadapterfav);
         conList.setAdapter(customadaptercon);
+
 
         //Hides view of other tab (fragment_content)
         // LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
@@ -67,7 +74,6 @@ public class Fragment1 extends Fragment {
 
     TextView txtFavorites;
     TextView txtConsumed;
-    View fr1;
     private void init(View view) {
         ds=new DataStorage(getActivity());
         addFavDrinks();
@@ -79,7 +85,6 @@ public class Fragment1 extends Fragment {
         txtFavorites.setText("Favorites");
         txtConsumed = (TextView) view.findViewById(R.id.txtConsumed);
         txtConsumed.setText("Consumed");
-        fr1=(View) view.findViewById(R.layout.fragment_main);
     }
 
     /**
@@ -116,7 +121,8 @@ public class Fragment1 extends Fragment {
             JSONObject drink=consumed.get(i);
             try {
                 DRINK_NAMES_c[i]=drink.getString("name");
-                ALCO_LEVEL_c[i]=drink.getString("alco")+" %";
+                Date time=new Date(drink.getString("time"));
+                ALCO_LEVEL_c[i]=time.getHours()+":"+(String.valueOf(time.getMinutes()).length()==1?"0"+String.valueOf(time.getMinutes()):String.valueOf(time.getMinutes()));
                 VOLUME_c[i]=drink.getString("quantity")+" l";
             } catch (JSONException e) {
                 Toast.makeText(getActivity(),"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
@@ -175,7 +181,8 @@ public class Fragment1 extends Fragment {
                         double kcal=drinks.get(i).getDouble("kcal");
                         //Toast.makeText(getActivity(),time,Toast.LENGTH_LONG).show();
                         ds.addConsumed(time,drinkID,name,alco,icon,favorite,quantity,cost,kcal);
-
+                        addConsumed();
+                        conList.setAdapter(new CustomAdapterCon());
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Something went wrong at adding consumed!",Toast.LENGTH_LONG).show();
@@ -228,7 +235,18 @@ public class Fragment1 extends Fragment {
                 @Override
                 public void onClick(View view) {
                     animateBt(delete);
-                    Toast.makeText(getActivity(), DRINK_NAMES_c[i], Toast.LENGTH_SHORT).show();
+                    try {
+                        alcoID_tmp=consumed.get(i).getInt("alcoID");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Delete this consumed drink")
+                                .setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener).show();
+
+
+
+                    } catch (JSONException e) {
+                        Toast.makeText(getActivity(),"ERROR: Failed at deleting consumed!",Toast.LENGTH_LONG).show();
+                    }
                 }
 
             });
@@ -246,5 +264,21 @@ public class Fragment1 extends Fragment {
 
         bt.startAnimation(fadeIn);
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int choice) {
+            switch (choice) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    ds.removeConsumed(alcoID_tmp);
+                    addConsumed();
+                    conList.setAdapter(new CustomAdapterCon());
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    break;
+            }
+        }
+    };
+
 
 }
