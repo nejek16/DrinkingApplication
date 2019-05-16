@@ -1,5 +1,6 @@
 package info.devexchanges.navvp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -51,7 +52,100 @@ public class Fragment3 extends Fragment {
     EditText tx_drinkName;
     ImageView not_favourite;
     ImageView favourite;
+    ImageView icon_beer;
+    ImageView icon_white_vine;
+    ImageView icon_red_vine;
+    ImageView icon_cocktail;
+    ImageView icon_viski;
+    ImageView icon_shot;
+    String icon = "icon_beer";
     private void init(View view){
+        icon_beer = (ImageView) view.findViewById(R.id.icon_beer);
+        icon_beer.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_beer.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_beer";
+            }
+        });
+
+        icon_white_vine = (ImageView) view.findViewById(R.id.icon_white_vine);
+        icon_white_vine.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_white_vine.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_white_vine";
+            }
+        });
+
+        icon_red_vine = (ImageView) view.findViewById(R.id.icon_red_vine);
+        icon_red_vine.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_red_vine.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_red_vine";
+            }
+        });
+
+        icon_cocktail = (ImageView) view.findViewById(R.id.icon_cocktail);
+        icon_cocktail.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_cocktail.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_cocktail";
+            }
+        });
+
+        icon_viski = (ImageView) view.findViewById(R.id.icon_viski);
+        icon_viski.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_viski.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_viski";
+            }
+        });
+
+        icon_shot = (ImageView) view.findViewById(R.id.icon_shot);
+        icon_shot.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                icon_shot.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon = "icon_shot";
+            }
+        });
+
+
+
         not_favourite = (ImageView) view.findViewById(R.id.not_favourite);
         not_favourite.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -155,13 +249,13 @@ public class Fragment3 extends Fragment {
             double cost=tx_price.getText().length()==0?0.:Double.parseDouble(tx_price.getText().toString());
             double kcal=tx_cal.getText().length()==0?0.:Double.parseDouble(tx_cal.getText().toString());
 
-            if(name.length()>12){
+            if(name.length()>15){
                 Toast.makeText(getActivity(),"Name of drink too long!",Toast.LENGTH_LONG).show();
                 return false;
             }
             DataStorage ds=new DataStorage(getActivity());
 
-            ds.addDrink(name,alco,null,favorite,quantity,cost,kcal);
+            ds.addDrink(name,alco,icon,favorite,quantity,cost,kcal);
         }
         catch (Exception e){
             return false;
