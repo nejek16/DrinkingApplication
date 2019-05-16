@@ -25,7 +25,7 @@ public class Fragment1 extends Fragment {
 
     }
     int[] IMAGES = {R.drawable.beer,R.drawable.white_wine,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer};
-    String[] DRINK_NAMES = {"Beer","White vine","Beer","Beer","Beer","Beer","Beer","Beer"};
+    String[] DRINK_NAMES = {"Beer","White vine vine","Beer","Beer","Beer","Beer","Beer","Beer"};
     String[] ALCO_LEVEL = {"5%","9%","5%","5%","5%","5%","5%","5%"};
     String[] VOLUME = {"0.5l","0.2l","0.5l","0.5l","0.5l","0.5l","0.5l","0.5l"};
 
@@ -36,8 +36,12 @@ public class Fragment1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         ListView favList = (ListView) view.findViewById(R.id.favlist);
-        CustomAdapter customadapter = new CustomAdapter();
-        favList.setAdapter(customadapter);
+        ListView conList = (ListView) view.findViewById(R.id.conlist);
+        CustomAdapterFav customadapterfav = new CustomAdapterFav();
+        CustomAdapterCon customadaptercon = new CustomAdapterCon();
+
+        favList.setAdapter(customadapterfav);
+        conList.setAdapter(customadaptercon);
 
         //Hides view of other tab (fragment_content)
         // LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
@@ -53,7 +57,8 @@ public class Fragment1 extends Fragment {
         txtConsumed = (TextView) view.findViewById(R.id.txtConsumed);
         txtConsumed.setText("Consumed");
     }
-    class CustomAdapter extends BaseAdapter implements View.OnClickListener {
+    //list fovouritem
+    class CustomAdapterFav extends BaseAdapter implements View.OnClickListener {
 
         @Override
         public int getCount() {
@@ -62,7 +67,7 @@ public class Fragment1 extends Fragment {
 
         @Override
         public Object getItem(int i) {
-            return null;//ce nedela poprav
+            return null;
         }
 
         @Override
@@ -90,6 +95,55 @@ public class Fragment1 extends Fragment {
                 @Override
                 public void onClick(View view) {
                     animateBt(add);
+                    Toast.makeText(getActivity(), DRINK_NAMES[i], Toast.LENGTH_SHORT).show();
+                }
+
+            });
+            return view;
+        }
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+    //consumed
+    class CustomAdapterCon extends BaseAdapter implements View.OnClickListener {
+
+        @Override
+        public int getCount() {
+            return IMAGES.length;//size of list
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            view = getActivity().getLayoutInflater().inflate(R.layout.favourite_list_item_consumed,null);
+            ImageView icon =(ImageView)view.findViewById(R.id.list_item_thumbnail_con);
+            final ImageView delete =(ImageView)view.findViewById(R.id.drink_delete);
+            TextView drink = (TextView)view.findViewById(R.id.list_item_drink_con);
+            TextView alcolvl = (TextView)view.findViewById(R.id.list_item_alco_con);
+            TextView volume = (TextView)view.findViewById(R.id.list_item_price_con);
+
+            delete.setImageResource(R.drawable.delete);
+            icon.setImageResource(IMAGES[i]);
+            drink.setText(DRINK_NAMES[i]);
+            alcolvl.setText(ALCO_LEVEL[i]);
+            volume.setText(VOLUME[i]);
+
+
+            delete.setOnClickListener(new AdapterView.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    animateBt(delete);
                     Toast.makeText(getActivity(), DRINK_NAMES[i], Toast.LENGTH_SHORT).show();
                 }
 

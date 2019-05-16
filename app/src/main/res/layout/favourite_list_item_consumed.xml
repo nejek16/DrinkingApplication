@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:id="@+id/delete_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:scaleType="fitStart"
+        android:layout_weight="1"
+        android:id="@+id/list_item_thumbnail_con"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        app:srcCompat="@drawable/beer" />
+
+    <TextView
+        android:layout_weight="3"
+        android:id="@+id/list_item_drink_con"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_thumbnail_con"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/list_item_thumbnail_con"
+        android:layout_toRightOf="@id/list_item_thumbnail_con"
+        android:gravity="left|center_vertical"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:id="@+id/list_item_alco_con"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_thumbnail_con"
+        android:layout_alignParentTop="true"
+
+        android:layout_toEndOf="@id/list_item_drink_con"
+        android:layout_toRightOf="@id/list_item_drink_con"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:id="@+id/list_item_price_con"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/list_item_thumbnail"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/list_item_alco_con"
+        android:layout_toRightOf="@id/list_item_alco_con"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:scaleType="fitEnd"
+        android:layout_weight="1"
+        android:id="@+id/drink_delete"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:layout_toEndOf="@id/list_item_price_con"
+        android:layout_toRightOf="@id/list_item_price_con"
+        android:textColor="@color/white"
+        app:srcCompat="@drawable/delete" />
+    </LinearLayout>
+</RelativeLayout>
