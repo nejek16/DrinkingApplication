@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 //import info.devexchanges.navvp.DataStorage;
 
@@ -47,6 +48,7 @@ public class Fragment3 extends Fragment {
     EditText tx_alcoLvl;
     EditText tx_price;
     EditText tx_cal;
+    EditText tx_drinkName;
     ImageView not_favourite;
     ImageView favourite;
     private void init(View view){
@@ -73,6 +75,13 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_addDrink);
+                Toast.makeText(getActivity(),tx_cal.getText().length()==0?"0":String.valueOf(tx_cal.getText().toString()),Toast.LENGTH_SHORT).show();
+                if(storeData()){
+                    Toast.makeText(getActivity(),"Drink added!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getActivity(),"Failed to add drink!",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -127,10 +136,37 @@ public class Fragment3 extends Fragment {
         tx_alcoLvl=(EditText) view.findViewById(R.id.edTx_alcoLvl);
         tx_price=(EditText) view.findViewById(R.id.edTx_price);
         tx_cal=(EditText) view.findViewById(R.id.edTx_kcal);
+        tx_drinkName=(EditText) view.findViewById(R.id.edTx_drinkName);
     }
 
     private void changeQuantityVal(double value){
         tx_quant.setText(String.valueOf(value));
+    }
+
+    /**
+     Returns true if store successful
+     */
+    private boolean storeData(){
+        try {
+            String name=tx_drinkName.getText().toString();
+            boolean favorite=favourite.getVisibility()==View.VISIBLE;
+            double quantity=Double.parseDouble(tx_quant.getText().toString());
+            double alco=Double.parseDouble(tx_alcoLvl.getText().toString());
+            double cost=tx_price.getText().length()==0?0.:Double.parseDouble(tx_price.getText().toString());
+            double kcal=tx_cal.getText().length()==0?0.:Double.parseDouble(tx_cal.getText().toString());
+
+            if(name.length()>12){
+                Toast.makeText(getActivity(),"Name of drink too long!",Toast.LENGTH_LONG).show();
+                return false;
+            }
+            DataStorage ds=new DataStorage(getActivity());
+
+            ds.addDrink(name,alco,null,favorite,quantity,cost,kcal);
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
 }
