@@ -14,7 +14,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +21,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -185,6 +183,7 @@ public class Fragment1 extends Fragment {
                         ds.addConsumed(time,drinkID,name,alco,icon,favorite,quantity,cost,kcal);
                         addConsumed();
                         conList.setAdapter(new CustomAdapterCon());
+                        Bac_level();
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Something went wrong at adding consumed!",Toast.LENGTH_LONG).show();
@@ -275,6 +274,7 @@ public class Fragment1 extends Fragment {
                     ds.removeConsumed(alcoID_tmp);
                     addConsumed();
                     conList.setAdapter(new CustomAdapterCon());
+                    Bac_level();
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
@@ -282,5 +282,45 @@ public class Fragment1 extends Fragment {
         }
     };
 
+    public void Bac_level(){
+        List<Double> bac = new ArrayList<Double>();
+        DataStorage dataStorage = new DataStorage(getActivity());
+        double widmark_factor = 0;
+        double height = 0;
+        double weight = 0;
+        if(dataStorage.getGender() == 'M'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =1.0181-(0.01213*(weight/(height*height)));
+        }else if(dataStorage.getGender() == 'F'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =0.9367-(0.1240*(weight/(height*height)));
+        }
+        double Bac_level = 0;
+        try {
+            double mililiters = 0;
+            double alco_level = 0;
+            double cons = 0.789;
+            List<JSONObject> consumed;
+            consumed=dataStorage.getConsumed();
+            for(int i = 0; i < consumed.size(); i++){
+                mililiters = consumed.get(i).getDouble("quantity")*1000;
+                alco_level = consumed.get(i).getDouble("alco")/100;
+                bac.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10));//minus time
+            }
+            for(int j = 0; j < bac.size(); j++){
+                Bac_level += bac.get(j);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
+        //action bar
+        TextView toolbarTxPro=(TextView)getActivity().findViewById(R.id.promili);
+        toolbarTxPro.setText(String.format("%.2f", Bac_level)+ " ‰");
+        toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
 
+        TextView toolbarTxSob=(TextView)getActivity().findViewById(R.id.sober);
+        toolbarTxSob.setText("Sober at: 23:23");
+    }
 }

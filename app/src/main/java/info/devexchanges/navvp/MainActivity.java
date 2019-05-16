@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //BAC calculation
         Bac_level();
-        
+
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -165,6 +165,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView toolbarTxSob=(TextView)findViewById(R.id.sober);
         toolbarTxSob.setText("Sober at: 23:23");
-
     }
 }
