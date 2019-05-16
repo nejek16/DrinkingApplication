@@ -31,12 +31,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, DesActivity.class);
             startActivity(intent);
         }
-
+        double widmark_factor = 0;
+        double height = 0;
+        double weight = 0;
+        if(dataStorage.getGender() == 'M'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =1.0181-(0.01213*(weight/(height*height)));
+        }else if(dataStorage.getGender() == 'F'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =0.9367-(0.1240*(weight/(height*height)));
+        }
+        //BAC calculation
+        
 
         //action bar
 
         TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
-        toolbarTxPro.setText("abba");
+        toolbarTxPro.setText(String.format("%.2f", widmark_factor));
+        toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
 
         TextView toolbarTxSob=(TextView)findViewById(R.id.sober);
         toolbarTxSob.setText("fridom");

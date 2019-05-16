@@ -141,7 +141,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded2"
             android:drawablePadding="16dp"
-            android:hint="Enter your age"
+            android:hint="Enter your height in cm"
             android:inputType="number"
             android:padding="12dp"
             android:textColor="#000" />

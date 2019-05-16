@@ -40,7 +40,7 @@ public class DesActivity extends AppCompatActivity implements View.OnClickListen
         TextView txtInputKg = (TextView) findViewById(R.id.txtInputKg);
         TextView txtInputAge = (TextView) findViewById(R.id.txtInputAge);
         txtInputKg.setText("Enter your weight");
-        txtInputAge.setText("Enter your age");
+        txtInputAge.setText("Enter your height");
 
         Button new_user = (Button)findViewById(R.id.bt_newuser);
         new_user.setOnClickListener(this);
