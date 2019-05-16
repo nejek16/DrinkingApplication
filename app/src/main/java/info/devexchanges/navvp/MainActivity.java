@@ -13,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -44,7 +48,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             widmark_factor =0.9367-(0.1240*(weight/(height*height)));
         }
         //BAC calculation
-        
+        double[] m;
+        List<JSONObject> consumed;
+        consumed=dataStorage.getConsumed();
 
         //action bar
 

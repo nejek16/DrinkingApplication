@@ -58,7 +58,7 @@ public class Fragment3 extends Fragment {
     ImageView icon_cocktail;
     ImageView icon_viski;
     ImageView icon_shot;
-    String icon = "icon_beer";
+    int icon = R.drawable.beer;
     private void init(View view){
         icon_beer = (ImageView) view.findViewById(R.id.icon_beer);
         icon_beer.setOnClickListener(new View.OnClickListener(){
@@ -70,7 +70,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_beer";
+                icon = R.drawable.beer;
             }
         });
 
@@ -84,7 +84,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_white_vine";
+                icon = R.drawable.white_wine;
             }
         });
 
@@ -98,7 +98,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_red_vine";
+                icon = R.drawable.white_wine;
             }
         });
 
@@ -112,7 +112,7 @@ public class Fragment3 extends Fragment {
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_cocktail";
+                icon = R.drawable.white_wine;
             }
         });
 
@@ -126,7 +126,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_viski";
+                icon = R.drawable.white_wine;
             }
         });
 
@@ -140,7 +140,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
-                icon = "icon_shot";
+                icon = R.drawable.white_wine;
             }
         });
 
