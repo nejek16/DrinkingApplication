@@ -174,7 +174,7 @@ public class Fragment1 extends Fragment {
                         int drinkID=drinks.get(i).getInt("drinkID");
                         String name=drinks.get(i).getString("name");
                         double alco=drinks.get(i).getDouble("alco");
-                        String icon=drinks.get(i).getString("icon");
+                        int icon=drinks.get(i).getInt("icon");
                         Boolean favorite=drinks.get(i).getBoolean("favorite");
                         double quantity=drinks.get(i).getDouble("quantity");
                         double cost=drinks.get(i).getDouble("cost");

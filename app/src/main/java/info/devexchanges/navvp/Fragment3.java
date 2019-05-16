@@ -169,7 +169,6 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View view) {
                 animateBt(bt_addDrink);
-                Toast.makeText(getActivity(),tx_cal.getText().length()==0?"0":String.valueOf(tx_cal.getText().toString()),Toast.LENGTH_SHORT).show();
                 if(storeData()){
                     Toast.makeText(getActivity(),"Drink added!",Toast.LENGTH_SHORT).show();
                 }

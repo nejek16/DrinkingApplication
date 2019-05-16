@@ -134,7 +134,7 @@ public class DataStorage {
         writeFile("[]",consumed);
     }
 
-    public void addConsumed(String time,int drinkID,String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+    public void addConsumed(String time,int drinkID,String name,Double alco,int icon,Boolean favorite,Double quantity,Double cost,Double kcal){
         try {
             int alcoID=getIdConsumed();
             JSONArray json =new JSONArray(readFile(consumed));
