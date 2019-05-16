@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -164,6 +166,26 @@ public class DataStorage {
             JSONArray json =new JSONArray(readFile(consumed));
             for(int i=0;i<json.length();i++){
                 allConsumed.add(json.getJSONObject(i));
+            }
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG).show();
+            return null;
+        }
+        return allConsumed;
+    }
+    public List<JSONObject> getTimedConsumed(long minutes){
+        List<JSONObject> allConsumed=new ArrayList<JSONObject>();
+        try {
+            JSONArray json =new JSONArray(readFile(consumed));
+            for(int i=json.length()-1;i>=0;i--){
+                JSONObject cons=json.getJSONObject(i);
+                Date drinkTime=new Date(cons.getString("time"));
+                Calendar cur= Calendar.getInstance();
+                long t= cur.getTimeInMillis();
+                Date beforeTime=new Date(t - (minutes * 60000));
+                if(drinkTime.after(beforeTime)){
+                    allConsumed.add(json.getJSONObject(i));
+                }
             }
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG).show();

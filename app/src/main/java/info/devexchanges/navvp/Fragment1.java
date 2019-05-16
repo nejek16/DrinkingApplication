@@ -36,12 +36,12 @@ public class Fragment1 extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
 
     }
-    int[] IMAGES = {R.drawable.beer,R.drawable.white_wine,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer};
+    int[] IMAGES ;
     String[] DRINK_NAMES;
     String[] ALCO_LEVEL;
     String[] VOLUME;
 
-    int[] IMAGES_c = {R.drawable.beer,R.drawable.white_wine,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer,R.drawable.beer};
+    int[] IMAGES_c;
     String[] DRINK_NAMES_c;
     String[] ALCO_LEVEL_c;
     String[] VOLUME_c;
@@ -95,13 +95,14 @@ public class Fragment1 extends Fragment {
         DRINK_NAMES=new String[drinks.size()];
         ALCO_LEVEL=new String[drinks.size()];
         VOLUME=new String[drinks.size()];
-
+        IMAGES=new int[drinks.size()];
         for(int i=0;i<drinks.size();i++){
             JSONObject drink=drinks.get(i);
             try {
                 DRINK_NAMES[i]=drink.getString("name");
                 ALCO_LEVEL[i]=drink.getString("alco")+" %";
                 VOLUME[i]=drink.getString("quantity")+" l";
+                IMAGES[i]=drink.getInt("icon");
             } catch (JSONException e) {
                 Toast.makeText(getActivity(),"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
             }
@@ -112,11 +113,11 @@ public class Fragment1 extends Fragment {
      Adds consumed to list
      */
     private void addConsumed(){
-        consumed=ds.getConsumed();
+        consumed=ds.getTimedConsumed(1440);
         DRINK_NAMES_c=new String[consumed.size()];
         ALCO_LEVEL_c=new String[consumed.size()];
         VOLUME_c=new String[consumed.size()];
-
+        IMAGES_c=new int[consumed.size()];
         for(int i=0;i<consumed.size();i++){
             JSONObject drink=consumed.get(i);
             try {
@@ -124,6 +125,7 @@ public class Fragment1 extends Fragment {
                 Date time=new Date(drink.getString("time"));
                 ALCO_LEVEL_c[i]=time.getHours()+":"+(String.valueOf(time.getMinutes()).length()==1?"0"+String.valueOf(time.getMinutes()):String.valueOf(time.getMinutes()));
                 VOLUME_c[i]=drink.getString("quantity")+" l";
+                IMAGES_c[i]=drink.getInt("icon");
             } catch (JSONException e) {
                 Toast.makeText(getActivity(),"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
             }
@@ -242,7 +244,7 @@ public class Fragment1 extends Fragment {
                                 .setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
 
-                        ds.clearData();
+
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Failed at deleting consumed!",Toast.LENGTH_LONG).show();
