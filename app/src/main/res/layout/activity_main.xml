@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:textAlignment="textEnd"
                 android:layout_gravity="end"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="5dp"
                 android:textSize="30sp"
                 android:textColor="@color/white" />
         </LinearLayout>

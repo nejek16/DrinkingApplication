@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,32 +37,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, DesActivity.class);
             startActivity(intent);
         }
-        double widmark_factor = 0;
-        double height = 0;
-        double weight = 0;
-        if(dataStorage.getGender() == 'M'){
-            weight = dataStorage.getWeight();
-            height =  (double)dataStorage.getAge()/100;
-            widmark_factor =1.0181-(0.01213*(weight/(height*height)));
-        }else if(dataStorage.getGender() == 'F'){
-            weight = dataStorage.getWeight();
-            height =  (double)dataStorage.getAge()/100;
-            widmark_factor =0.9367-(0.1240*(weight/(height*height)));
-        }
+
         //BAC calculation
-        double[] m;
-        List<JSONObject> consumed;
-        consumed=dataStorage.getConsumed();
-
-        //action bar
-
-        TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
-        toolbarTxPro.setText(String.format("%.2f", widmark_factor));
-        toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
-
-        TextView toolbarTxSob=(TextView)findViewById(R.id.sober);
-        toolbarTxSob.setText("fridom");
-
+        Bac_level();
+        
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -144,5 +124,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+    public void Bac_level(){
+        List<Double> bac = new ArrayList<Double>();
+        DataStorage dataStorage = new DataStorage(this);
+        double widmark_factor = 0;
+        double height = 0;
+        double weight = 0;
+        if(dataStorage.getGender() == 'M'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =1.0181-(0.01213*(weight/(height*height)));
+        }else if(dataStorage.getGender() == 'F'){
+            weight = dataStorage.getWeight();
+            height =  (double)dataStorage.getAge()/100;
+            widmark_factor =0.9367-(0.1240*(weight/(height*height)));
+        }
+        double Bac_level = 0;
+        try {
+            double mililiters = 0;
+            double alco_level = 0;
+            double cons = 0.789;
+            List<JSONObject> consumed;
+            consumed=dataStorage.getConsumed();
+            for(int i = 0; i < consumed.size(); i++){
+                mililiters = consumed.get(i).getDouble("quantity")*1000;
+                alco_level = consumed.get(i).getDouble("alco")/100;
+                bac.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10));//minus time
+            }
+            for(int j = 0; j < bac.size(); j++){
+                Bac_level += bac.get(j);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+        }
+        //action bar
+        TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
+        toolbarTxPro.setText(String.format("%.2f", Bac_level)+ " ‰");
+        toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
+
+        TextView toolbarTxSob=(TextView)findViewById(R.id.sober);
+        toolbarTxSob.setText("Sober at: 23:23");
+
     }
 }
