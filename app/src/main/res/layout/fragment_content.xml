@@ -79,7 +79,8 @@
 
                     <Button
                         android:id="@+id/bt_liters1"
-                        android:layout_width="69dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/rounded1"
@@ -91,7 +92,8 @@
 
                     <Button
                         android:id="@+id/bt_liters2"
-                        android:layout_width="69dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/rounded1"
@@ -103,7 +105,8 @@
 
                     <Button
                         android:id="@+id/bt_liters3"
-                        android:layout_width="69dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/rounded1"
@@ -115,7 +118,8 @@
 
                     <Button
                         android:id="@+id/bt_liters4"
-                        android:layout_width="69dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/rounded1"
@@ -127,9 +131,11 @@
 
                     <Button
                         android:id="@+id/bt_liters5"
-                        android:layout_width="69dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/rounded1"
                         android:padding="5dp"
                         android:text="1l"
