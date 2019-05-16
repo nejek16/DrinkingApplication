@@ -128,16 +128,17 @@ public class DataStorage {
         return -1;
     }
 
-    public void test(){
-        String a=readFile(drinks);
-        Toast.makeText(context,a,Toast.LENGTH_LONG).show();
+    public void test() throws JSONException {
+       // String a=readFile(consumed);
+        //Toast.makeText(context,new JSONArray(a).getJSONObject(0).getString("name"),Toast.LENGTH_LONG).show();
+        writeFile("[]",consumed);
     }
 
-    public void addConsumed(Date time,int drinkID,String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+    public void addConsumed(String time,int drinkID,String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
         try {
             int alcoID=getIdConsumed();
             JSONArray json =new JSONArray(readFile(consumed));
-            json=json.put(new JSONObject("{\"alcoID\":"+alcoID+",\"time\":"+time+",\"drinkID\":"+drinkID+",\"name\":"+name+",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
+            json=json.put(new JSONObject("{\"alcoID\":"+alcoID+",\"time\":\""+time+"\",\"drinkID\":"+drinkID+",\"name\":\""+name+"\",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
             writeFile(json.toString(),consumed);
         } catch (Exception e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
@@ -190,7 +191,6 @@ public class DataStorage {
     public void addDrink(String name,Double alco,String icon,Boolean favorite,Double quantity,Double cost,Double kcal){
         try {
             int drinkID=getIdDrink();
-            Toast.makeText(context,String.valueOf(drinkID),Toast.LENGTH_SHORT).show();
             JSONArray json =new JSONArray(readFile(drinks));
             json=json.put(new JSONObject("{\"drinkID\":"+drinkID+",\"name\":"+name+",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
             writeFile(json.toString(),drinks);
@@ -238,6 +238,22 @@ public class DataStorage {
         }
 
     }
+    public List<JSONObject> getFavDrinks(){
+        List<JSONObject> allDrinks=new ArrayList<JSONObject>();
+        try {
+            JSONArray json =new JSONArray(readFile(drinks));
+            for(int i=0;i<json.length();i++){
+                if(json.getJSONObject(i).getBoolean("favorite")){
+                    allDrinks.add(json.getJSONObject(i));
+                }
+            }
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            return null;
+        }
+        return allDrinks;
+    }
+
     private void writeFile(String text,String path) {//make private
 
         try {

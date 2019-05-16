@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="2">
+    android:weightSum="2"
+    >
 
     <TextView
         android:textSize="23dp"
@@ -42,6 +43,7 @@
         android:textColor="@color/white"
         android:text="TextView" />
     <LinearLayout
+        android:id="@+id/fragment_consumed_layout"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
