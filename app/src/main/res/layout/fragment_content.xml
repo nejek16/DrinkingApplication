@@ -204,7 +204,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:text="‰"
+                    android:text="%"
                     android:textColor="@color/white"
                     android:textSize="20dp" />
             </LinearLayout>
@@ -274,12 +274,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp">
                 <ImageView
                     android:id="@+id/icon_beer"
                     android:background="@drawable/rounded1"
@@ -292,7 +290,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beer"/>
+                    android:src="@drawable/white_wine"/>
                 <ImageView
                     android:id="@+id/icon_red_vine"
                     android:layout_weight="1"
@@ -319,7 +317,7 @@
                     android:src="@drawable/beer"/>
             </LinearLayout>
                     <Button
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginBottom="10dp"
