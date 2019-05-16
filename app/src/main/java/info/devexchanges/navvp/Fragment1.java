@@ -112,7 +112,7 @@ public class Fragment1 extends Fragment {
      Adds consumed to list
      */
     private void addConsumed(){
-        consumed=ds.getConsumed();
+        consumed=ds.getTimedConsumed(1440);
         DRINK_NAMES_c=new String[consumed.size()];
         ALCO_LEVEL_c=new String[consumed.size()];
         VOLUME_c=new String[consumed.size()];
@@ -242,7 +242,7 @@ public class Fragment1 extends Fragment {
                                 .setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
 
-                        ds.clearData();
+
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Failed at deleting consumed!",Toast.LENGTH_LONG).show();
