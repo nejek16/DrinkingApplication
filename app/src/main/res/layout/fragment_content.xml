@@ -265,7 +265,53 @@
                     android:textColor="@color/white"
                     android:textSize="20dp" />
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
+                <ImageView
+                    android:id="@+id/icon_beer"
+                    android:background="@drawable/rounded1"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+                <ImageView
+                    android:id="@+id/icon_white_vine"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+                <ImageView
+                    android:id="@+id/icon_red_vine"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+                <ImageView
+                    android:id="@+id/icon_cocktail"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+                <ImageView
+                    android:id="@+id/icon_viski"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+                <ImageView
+                    android:id="@+id/icon_shot"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/beer"/>
+            </LinearLayout>
                     <Button
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
