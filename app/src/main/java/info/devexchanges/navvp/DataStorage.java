@@ -215,7 +215,7 @@ public class DataStorage {
         try {
             int drinkID=getIdDrink();
             JSONArray json =new JSONArray(readFile(drinks));
-            json=json.put(new JSONObject("{\"drinkID\":"+drinkID+",\"name\":"+name+",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
+            json=json.put(new JSONObject("{\"drinkID\":"+drinkID+",\"name\":\""+name+"\",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
             writeFile(json.toString(),drinks);
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
