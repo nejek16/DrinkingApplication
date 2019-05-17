@@ -288,6 +288,7 @@ public class Fragment1 extends Fragment {
         double widmark_factor = 0;
         double height = 0;
         double weight = 0;
+        Date sober_time = new Date();
         if(dataStorage.getGender() == 'M'){
             weight = dataStorage.getWeight();
             height =  (double)dataStorage.getAge()/100;
@@ -302,25 +303,57 @@ public class Fragment1 extends Fragment {
             double mililiters = 0;
             double alco_level = 0;
             double cons = 0.789;
+            Date time;
             List<JSONObject> consumed;
-            consumed=dataStorage.getConsumed();
+            consumed=dataStorage.getTimedConsumed(1440);
+            Date first_drink_time = new Date(consumed.get(0).getString("time"));
             for(int i = 0; i < consumed.size(); i++){
                 mililiters = consumed.get(i).getDouble("quantity")*1000;
                 alco_level = consumed.get(i).getDouble("alco")/100;
-                bac.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10));//minus time
+                time = new Date(consumed.get(i).getString("time"));
+                if(first_drink_time.after(time)){
+                    first_drink_time = time;
+                }
+                first_drink_time = time;
+                Date currentTime = Calendar.getInstance().getTime();
+                long diff = currentTime.getTime() - time.getTime();
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+
+                if(minutes >= 20){
+                    minutes = 20;
+                }
+                if(minutes == 0){
+                    minutes = 1;
+                }
+                double min = minutes *0.05; //20 minutes to drink to take effect
+                bac.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10)*min);//minus time
             }
             for(int j = 0; j < bac.size(); j++){
+                Date currentTime = Calendar.getInstance().getTime();
+                long diff = currentTime.getTime() - first_drink_time.getTime();
+                long hours = diff / 1000 / 60 / 60;
                 Bac_level += bac.get(j);
             }
+            Date currentTime = Calendar.getInstance().getTime();
+            long diff = currentTime.getTime() - first_drink_time.getTime();
+            long hours = diff / 1000 / 60 / 60;
+            Bac_level -= hours*0.015;
+            long min_sober = (long) ((Bac_level/0.015) * 60);
+            Date targetTime;
+            final long ONE_MINUTE_IN_MILLIS=60000;
+            long t= currentTime.getTime();
+            sober_time=new Date(t + (min_sober * ONE_MINUTE_IN_MILLIS));
+            Toast.makeText(getActivity(),String.valueOf(min_sober),Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
         //action bar
         TextView toolbarTxPro=(TextView)getActivity().findViewById(R.id.promili);
-        toolbarTxPro.setText(String.format("%.2f", Bac_level)+ " ‰");
+        toolbarTxPro.setText(String.format("%.3f", Bac_level)+ " ‰");
         toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
 
         TextView toolbarTxSob=(TextView)getActivity().findViewById(R.id.sober);
-        toolbarTxSob.setText("Sober at: 23:23");
+        toolbarTxSob.setText("Sober: "+ sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes())));
     }
 }
