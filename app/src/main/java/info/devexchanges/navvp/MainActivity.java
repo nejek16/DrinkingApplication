@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             final long ONE_MINUTE_IN_MILLIS=60000;
             long t= currentTime.getTime();
             sober_time=new Date(t + (min_sober * ONE_MINUTE_IN_MILLIS));
-            Toast.makeText(this,String.valueOf(min_sober),Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }

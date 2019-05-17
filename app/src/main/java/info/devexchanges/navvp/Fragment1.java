@@ -344,7 +344,6 @@ public class Fragment1 extends Fragment {
             final long ONE_MINUTE_IN_MILLIS=60000;
             long t= currentTime.getTime();
             sober_time=new Date(t + (min_sober * ONE_MINUTE_IN_MILLIS));
-            Toast.makeText(getActivity(),String.valueOf(min_sober),Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
