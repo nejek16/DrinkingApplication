@@ -296,25 +296,25 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beer"/>
+                    android:src="@drawable/red_wine"/>
                 <ImageView
                     android:id="@+id/icon_cocktail"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beer"/>
+                    android:src="@drawable/martini"/>
                 <ImageView
                     android:id="@+id/icon_viski"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beer"/>
+                    android:src="@drawable/viski"/>
                 <ImageView
                     android:id="@+id/icon_shot"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/beer"/>
+                    android:src="@drawable/shot"/>
             </LinearLayout>
                     <Button
                         android:layout_marginLeft="5dp"

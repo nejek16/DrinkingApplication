@@ -98,7 +98,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = R.drawable.white_wine;
+                icon = R.drawable.red_wine;
             }
         });
 
@@ -112,7 +112,7 @@ public class Fragment3 extends Fragment {
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = R.drawable.white_wine;
+                icon = R.drawable.martini;
             }
         });
 
@@ -126,7 +126,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
                 icon_shot.setBackgroundColor(Color.TRANSPARENT);
-                icon = R.drawable.white_wine;
+                icon = R.drawable.viski;
             }
         });
 
@@ -140,7 +140,7 @@ public class Fragment3 extends Fragment {
                 icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
                 icon_viski.setBackgroundColor(Color.TRANSPARENT);
                 icon_beer.setBackgroundColor(Color.TRANSPARENT);
-                icon = R.drawable.white_wine;
+                icon = R.drawable.shot;
             }
         });
 
@@ -241,7 +241,7 @@ public class Fragment3 extends Fragment {
      */
     private boolean storeData(){
         try {
-            String name=tx_drinkName.getText().toString();
+            String name=tx_drinkName.getText().toString().trim();
             boolean favorite=favourite.getVisibility()==View.VISIBLE;
             double quantity=Double.parseDouble(tx_quant.getText().toString());
             double alco=Double.parseDouble(tx_alcoLvl.getText().toString());
@@ -254,12 +254,15 @@ public class Fragment3 extends Fragment {
             }
             DataStorage ds=new DataStorage(getActivity());
 
-            ds.addDrink(name,alco,icon,favorite,quantity,cost,kcal);
+            if(ds.addDrink(name,alco,icon,favorite,quantity,cost,kcal)){
+                return true;
+            }else{
+                return false;
+            }
         }
         catch (Exception e){
             return false;
         }
-        return true;
     }
 
 }
