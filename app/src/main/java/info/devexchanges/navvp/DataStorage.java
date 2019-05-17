@@ -211,7 +211,7 @@ public class DataStorage {
     }
 
 
-    public void addDrink(String name,Double alco,int icon,Boolean favorite,Double quantity,Double cost,Double kcal){
+    public boolean addDrink(String name,Double alco,int icon,Boolean favorite,Double quantity,Double cost,Double kcal){
         try {
             int drinkID=getIdDrink();
             JSONArray json =new JSONArray(readFile(drinks));
@@ -219,7 +219,9 @@ public class DataStorage {
             writeFile(json.toString(),drinks);
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            return false;
         }
+        return true;
     }
 
     public void removeDrink(int drinkID){
