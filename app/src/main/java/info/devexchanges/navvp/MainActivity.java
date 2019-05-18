@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void Bac_level(){
         List<Double> bac = new ArrayList<Double>();
+        List<Double> bac_time = new ArrayList<Double>();
         DataStorage dataStorage = new DataStorage(this);
         double widmark_factor = 0;
         double height = 0;
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             widmark_factor =0.9367-(0.1240*(weight/(height*height)));
         }
         double Bac_level = 0;
+        double Bac_level_time = 0;
         try {
             double mililiters = 0;
             double alco_level = 0;
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 long seconds = diff / 1000;
                 long minutes = seconds / 60;
 
-                if(minutes >= 20){
+                if(minutes >= 25){
                     minutes = 20;
                 }
                 if(minutes == 0){
@@ -174,18 +176,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 double min = minutes *0.05; //20 minutes to drink to take effect
                 bac.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10)*min);//minus time
+                bac_time.add((((mililiters * alco_level * cons)/(widmark_factor*dataStorage.getWeight()))/10));
             }
             for(int j = 0; j < bac.size(); j++){
                 Date currentTime = Calendar.getInstance().getTime();
                 long diff = currentTime.getTime() - first_drink_time.getTime();
                 long hours = diff / 1000 / 60 / 60;
                 Bac_level += bac.get(j);
+                Bac_level_time += bac_time.get(j);
             }
             Date currentTime = Calendar.getInstance().getTime();
             long diff = currentTime.getTime() - first_drink_time.getTime();
             long hours = diff / 1000 / 60 / 60;
             Bac_level -= hours*0.015;
-            long min_sober = (long) ((Bac_level/0.015) * 60);
+            long min_sober = (long) ((Bac_level_time/0.015) * 60);
             Date targetTime;
             final long ONE_MINUTE_IN_MILLIS=60000;
             long t= currentTime.getTime();
@@ -193,12 +197,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             Toast.makeText(this,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
+        String sober = sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes()));
+        if(Bac_level <= 0){
+            Bac_level = 0;
+            sober = "you are";
+            //end of drinking sesion
+            //stop drinking button
+        }
         //action bar
         TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
         toolbarTxPro.setText(String.format("%.3f", Bac_level)+ " ‰");
-        toolbarTxPro.setTextColor(getResources().getColor(R.color.lightBlue));
 
+        if(Bac_level == 0){
+            toolbarTxPro.setTextColor(getResources().getColor(R.color.green));
+        }if(Bac_level > 0.08){
+            toolbarTxPro.setTextColor(getResources().getColor(R.color.less_green));
+        }if(Bac_level > 0.16){
+            toolbarTxPro.setTextColor(getResources().getColor(R.color.yellow));
+        }if(Bac_level > 0.24){
+            toolbarTxPro.setTextColor(getResources().getColor(R.color.orange));
+        }if(Bac_level > 0.32){
+            toolbarTxPro.setTextColor(getResources().getColor(R.color.red));
+        }
         TextView toolbarTxSob=(TextView)findViewById(R.id.sober);
-        toolbarTxSob.setText("Sober: "+ sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes())));
+        toolbarTxSob.setText("Sober: "+ sober);
     }
 }
