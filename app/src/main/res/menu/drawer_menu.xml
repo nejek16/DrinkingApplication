@@ -18,8 +18,11 @@
     <item
         android:id="@+id/go"
         android:icon="@android:drawable/ic_menu_call"
-        android:title="Go to Other Activity" />
-
+        android:title="Edit personal info" />
+    <item
+        android:id="@+id/MyDrinks"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="My drinks" />
     <item
         android:id="@+id/close"
         android:icon="@android:drawable/ic_menu_info_details"
