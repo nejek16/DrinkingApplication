@@ -101,6 +101,13 @@ public class MyDrinksList extends AppCompatActivity implements View.OnClickListe
 
         bt.startAnimation(fadeIn);
     }
+    private void animateView(View bt){
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new DecelerateInterpolator());
+        fadeIn.setDuration(250);
+
+        bt.startAnimation(fadeIn);
+    }
 
     /**
      Adds favorite drinks to list
@@ -180,6 +187,7 @@ public class MyDrinksList extends AppCompatActivity implements View.OnClickListe
             view.setOnClickListener(new AdapterView.OnClickListener(){
                 @Override
                 public void onClick(View view) {
+                    animateView(view);
                     Intent intent = new Intent(getBaseContext(), EditDrink.class);
                     try {
                         Bundle b = new Bundle();

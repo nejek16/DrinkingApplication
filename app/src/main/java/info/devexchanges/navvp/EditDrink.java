@@ -14,8 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class EditDrink extends AppCompatActivity {
     int drinkID = -1;
+    DataStorage ds =new DataStorage(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +35,8 @@ public class EditDrink extends AppCompatActivity {
             drinkID = b.getInt("ID");
 
         init();
-        Toast.makeText(this,String.valueOf(drinkID),Toast.LENGTH_LONG).show();
+
+        setData(ds.getDrinkById(drinkID));
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,7 +79,7 @@ public class EditDrink extends AppCompatActivity {
     ImageView icon_cocktail;
     ImageView icon_viski;
     ImageView icon_shot;
-    int icon = R.drawable.beer;
+    int icon;
     private void init(){
         icon_beer = (ImageView) findViewById(R.id.icon_beer);
         icon_beer.setOnClickListener(new View.OnClickListener(){
@@ -186,10 +191,10 @@ public class EditDrink extends AppCompatActivity {
             public void onClick(View view) {
                 animateBt(bt_addDrink);
                 if(storeData()){
-                    Toast.makeText(getBaseContext(),"Drink added!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),"Drink changed!",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getBaseContext(),"Failed to add drink!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),"Failed to change drink!",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -248,6 +253,85 @@ public class EditDrink extends AppCompatActivity {
         tx_drinkName=(EditText) findViewById(R.id.edTx_drinkName);
     }
 
+    private void setData(JSONObject jsn){
+        try {
+            //Set icon
+            icon = jsn.getInt("icon");
+            if(icon== R.drawable.beer){
+                icon_beer.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+            }else if(icon== R.drawable.white_wine){
+                icon_white_vine.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+            }else if(icon== R.drawable.red_wine){
+                icon_red_vine.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+            }else if(icon== R.drawable.martini){
+                icon_cocktail.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+            }else if(icon== R.drawable.viski){
+                icon_viski.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+                icon_shot.setBackgroundColor(Color.TRANSPARENT);
+            }else if(icon== R.drawable.shot){
+                icon_shot.setBackground(getResources().getDrawable(R.drawable.rounded1));
+                icon_white_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_red_vine.setBackgroundColor(Color.TRANSPARENT);
+                icon_cocktail.setBackgroundColor(Color.TRANSPARENT);
+                icon_viski.setBackgroundColor(Color.TRANSPARENT);
+                icon_beer.setBackgroundColor(Color.TRANSPARENT);
+            }
+
+
+
+            //Favorite
+            if(jsn.getBoolean("favorite")){
+                favourite.setVisibility(View.VISIBLE);
+                not_favourite.setVisibility(View.GONE);
+            }else{
+                favourite.setVisibility(View.GONE);
+                not_favourite.setVisibility(View.VISIBLE);
+            }
+
+            //Drink name
+            tx_drinkName.setText(jsn.getString("name"));
+
+            //Quantity
+            tx_quant.setText(jsn.getString("quantity"));
+
+            //Alcohol level
+            tx_alcoLvl.setText(jsn.getString("alco"));
+
+            //Price
+            tx_price.setText(jsn.getString("cost"));
+
+            //Calories
+            tx_cal.setText(jsn.getString("kcal"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void changeQuantityVal(double value){
         tx_quant.setText(String.valueOf(value));
     }
@@ -268,9 +352,8 @@ public class EditDrink extends AppCompatActivity {
                 Toast.makeText(this,"Name of drink too long!",Toast.LENGTH_LONG).show();
                 return false;
             }
-            DataStorage ds=new DataStorage(this);
 
-            if(ds.addDrink(name,alco,icon,favorite,quantity,cost,kcal)){
+            if(ds.editbyDrinkId(drinkID,name,alco,icon,favorite,quantity,cost,kcal)){
                 return true;
             }else{
                 return false;
