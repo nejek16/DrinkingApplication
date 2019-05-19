@@ -238,7 +238,7 @@ public class Fragment1 extends Fragment {
                     animateBt(delete);
                     try {
                         alcoID_tmp=consumed.get(i).getInt("alcoID");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.Theme_AppCompat_DayNight_Dialog);
                         builder.setMessage("Delete this consumed drink")
                                 .setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
