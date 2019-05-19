@@ -8,7 +8,8 @@
         android:label="Alcohol Tracker"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyDrinksList"></activity>
+        <activity android:name=".EditDrink"></activity>
+        <activity android:name=".MyDrinksList" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

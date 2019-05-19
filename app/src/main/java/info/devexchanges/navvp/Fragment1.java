@@ -49,6 +49,7 @@ public class Fragment1 extends Fragment {
     DataStorage ds;
 
     ListView conList;
+    ListView favList;
 
     int alcoID_tmp=-1;
 
@@ -56,7 +57,7 @@ public class Fragment1 extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
-        ListView favList = (ListView) view.findViewById(R.id.favlist);
+        favList = (ListView) view.findViewById(R.id.favlist);
         conList = (ListView) view.findViewById(R.id.conlist);
         CustomAdapterFav customadapterfav = new CustomAdapterFav();
         CustomAdapterCon customadaptercon = new CustomAdapterCon();
@@ -68,6 +69,14 @@ public class Fragment1 extends Fragment {
         //Hides view of other tab (fragment_content)
         // LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
         // contentFrag.setVisibility(View.GONE);
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        addFavDrinks();
+        addConsumed();
+        favList.setAdapter(new Fragment1.CustomAdapterFav());
+        conList.setAdapter(new Fragment1.CustomAdapterCon());
     }
 
     TextView txtFavorites;
