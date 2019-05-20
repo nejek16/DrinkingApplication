@@ -119,6 +119,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, MyDrinksList.class);
             intent.putExtra("string", "Go to other Activity by NavigationView item cliked!");
             startActivity(intent);
+        }else if (id == R.id.AllConsumed) {
+            Intent intent = new Intent(this, AllConsumed.class);
+            intent.putExtra("string", "Go to other Activity by NavigationView item cliked!");
+            startActivity(intent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

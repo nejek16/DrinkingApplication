@@ -30,7 +30,7 @@ public class EditDrink extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        // or other values
+        
         if(b != null)
             drinkID = b.getInt("ID");
 
@@ -192,6 +192,7 @@ public class EditDrink extends AppCompatActivity {
                 animateBt(bt_addDrink);
                 if(storeData()){
                     Toast.makeText(getBaseContext(),"Drink changed!",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 else{
                     Toast.makeText(getBaseContext(),"Failed to change drink!",Toast.LENGTH_SHORT).show();

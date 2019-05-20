@@ -164,7 +164,7 @@ public class DataStorage {
         List<JSONObject> allConsumed=new ArrayList<JSONObject>();
         try {
             JSONArray json =new JSONArray(readFile(consumed));
-            for(int i=0;i<json.length();i++){
+            for(int i=json.length()-1;i>=0;i--){
                 allConsumed.add(json.getJSONObject(i));
             }
         } catch (JSONException e) {
@@ -241,7 +241,7 @@ public class DataStorage {
         List<JSONObject> allDrinks=new ArrayList<JSONObject>();
         try {
             JSONArray json =new JSONArray(readFile(drinks));
-            for(int i=0;i<json.length();i++){
+            for(int i=json.length()-1;i>=0;i--){
                 allDrinks.add(json.getJSONObject(i));
             }
         } catch (JSONException e) {

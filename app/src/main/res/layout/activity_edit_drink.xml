@@ -333,7 +333,7 @@
                 android:background="@drawable/rounded1"
                 android:onClick="addDrink"
                 android:padding="14dp"
-                android:text="ADD DRINK"
+                android:text="Commit changes"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16dp" />

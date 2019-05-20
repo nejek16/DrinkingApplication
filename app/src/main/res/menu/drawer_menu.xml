@@ -24,6 +24,10 @@
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="My drinks" />
     <item
+        android:id="@+id/AllConsumed"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="All consumed" />
+    <item
         android:id="@+id/clear"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="Clear data" />
