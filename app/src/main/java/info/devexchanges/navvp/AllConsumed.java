@@ -16,6 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,23 +96,52 @@ public class AllConsumed extends AppCompatActivity {
      Adds consumed to list
      */
     private void addConsumed(){
-        consumed=ds.getTimedConsumed(1440);
-        DRINK_NAMES=new String[consumed.size()];
-        ALCO_LEVEL=new String[consumed.size()];
-        VOLUME=new String[consumed.size()];
-        IMAGES=new int[consumed.size()];
+        consumed=ds.getConsumed();
+        List<String> names=new ArrayList<String>();
+        List<String> alco=new ArrayList<String>();
+        List<String> volume=new ArrayList<String>();
+        List<Integer> images=new ArrayList<Integer>();
+        String curDate="";
         for(int i=0;i<consumed.size();i++){
             JSONObject drink=consumed.get(i);
             try {
-                DRINK_NAMES[i]=drink.getString("name");
-                Date time=new Date(drink.getString("time"));
-                ALCO_LEVEL[i]=time.getHours()+":"+(String.valueOf(time.getMinutes()).length()==1?"0"+String.valueOf(time.getMinutes()):String.valueOf(time.getMinutes()));
-                VOLUME[i]=drink.getString("quantity")+" l";
-                IMAGES[i]=drink.getInt("icon");
+                Date date=new Date(drink.getString("time"));
+                String drink_date=DateFormat.format("dd",   date)+"."+DateFormat.format("MM",   date)+"."+DateFormat.format("yyyy", date);
+                if(!curDate.equals(drink_date)){
+                    curDate=drink_date;
+                    names.add(curDate);
+                    alco.add("");
+                    volume.add("");
+                    images.add(R.drawable.zz_calendar);
+                }
+                names.add(drink.getString("name"));
+
+                alco.add(date.getHours()+":"+(String.valueOf(date.getMinutes()).length()==1?"0"+String.valueOf(date.getMinutes()):String.valueOf(date.getMinutes())));
+                volume.add(drink.getString("quantity")+" l");
+                images.add(drink.getInt("icon"));
             } catch (JSONException e) {
                 Toast.makeText(this,"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
             }
         }
+        DRINK_NAMES=getArrayString(names);
+        ALCO_LEVEL=getArrayString(alco);
+        VOLUME=getArrayString(volume);
+        IMAGES=getArrayInt(images);
+    }
+
+    private String[] getArrayString(List<String> array){
+        String[] arr=new String[array.size()];
+        for(int i=0;i<array.size();i++){
+            arr[i]=array.get(i);
+        }
+        return arr;
+    }
+    private int[] getArrayInt(List<Integer> array){
+        int[] arr=new int[array.size()];
+        for(int i=0;i<array.size();i++){
+            arr[i]=array.get(i);
+        }
+        return arr;
     }
 
     private void openAlert(){
@@ -162,28 +192,38 @@ public class AllConsumed extends AppCompatActivity {
             TextView alcolvl = (TextView)view.findViewById(R.id.list_item_alco);
             TextView volume = (TextView)view.findViewById(R.id.list_item_price);
 
-            remove.setImageResource(R.drawable.delete);
-            icon.setImageResource(IMAGES[i]);
-            drink.setText(DRINK_NAMES[i]);
-            alcolvl.setText(ALCO_LEVEL[i]);
-            volume.setText(VOLUME[i]);
+            if(IMAGES[i]!= R.drawable.zz_calendar) {
+                remove.setImageResource(R.drawable.delete);
+                icon.setImageResource(IMAGES[i]);
+                drink.setText(DRINK_NAMES[i]);
+                alcolvl.setText(ALCO_LEVEL[i]);
+                volume.setText(VOLUME[i]);
 
-            remove.setOnClickListener(new AdapterView.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    animateBt(remove);
-                    try {
+                remove.setOnClickListener(new AdapterView.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        animateBt(remove);
+                        try {
 
-                        alcoID_tmp=consumed.get(i).getInt("alcoID");
-                        openAlert();
+                            alcoID_tmp = consumed.get(i).getInt("alcoID");
+                            openAlert();
 
-                    } catch (Exception e) {
-                        Toast.makeText(getBaseContext(),"ERROR: Something went wrong at deleting drink!",Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(getBaseContext(), "ERROR: Something went wrong at deleting drink!", Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
 
 
-            });
+                });
+            }else{
+                remove.setImageResource(R.drawable.zz_empty);
+                icon.setImageResource(R.drawable.zz_empty);
+                icon.setLayoutParams( new LinearLayout.LayoutParams(50,50));
+                drink.setText(DRINK_NAMES[i]);
+                alcolvl.setText(ALCO_LEVEL[i]);
+                volume.setText(VOLUME[i]);
+                view.setBackgroundResource(R.drawable.rounded1);
+            }
             return view;
         }
         @Override

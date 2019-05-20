@@ -30,7 +30,7 @@ public class EditDrink extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        
+
         if(b != null)
             drinkID = b.getInt("ID");
 
