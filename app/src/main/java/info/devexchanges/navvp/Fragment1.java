@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +131,7 @@ public class Fragment1 extends Fragment {
             try {
                 DRINK_NAMES_c[i]=drink.getString("name");
                 Date time=new Date(drink.getString("time"));
-                ALCO_LEVEL_c[i]=time.getHours()+":"+(String.valueOf(time.getMinutes()).length()==1?"0"+String.valueOf(time.getMinutes()):String.valueOf(time.getMinutes()));
+                ALCO_LEVEL_c[i]= DateFormat.format("HH:mm",   time)+"";
                 VOLUME_c[i]=drink.getString("quantity")+" l";
                 IMAGES_c[i]=drink.getInt("icon");
             } catch (JSONException e) {

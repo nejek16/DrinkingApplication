@@ -29,10 +29,10 @@ import java.util.Date;
 import java.util.List;
 
 public class AllConsumed extends AppCompatActivity {
-    int[] IMAGES ;
-    String[] DRINK_NAMES;
-    String[] ALCO_LEVEL;
-    String[] VOLUME;
+    List<Integer> IMAGES ;
+    List<String> DRINK_NAMES;
+    List<String> ALCO_LEVEL;
+    List<String> VOLUME;
 
 
     List<JSONObject> consumed;
@@ -97,51 +97,33 @@ public class AllConsumed extends AppCompatActivity {
      */
     private void addConsumed(){
         consumed=ds.getConsumed();
-        List<String> names=new ArrayList<String>();
-        List<String> alco=new ArrayList<String>();
-        List<String> volume=new ArrayList<String>();
-        List<Integer> images=new ArrayList<Integer>();
+        DRINK_NAMES=new ArrayList<String>();
+        ALCO_LEVEL=new ArrayList<String>();
+        VOLUME=new ArrayList<String>();
+        IMAGES=new ArrayList<Integer>();
         String curDate="";
         for(int i=0;i<consumed.size();i++){
             JSONObject drink=consumed.get(i);
             try {
                 Date date=new Date(drink.getString("time"));
-                String drink_date=DateFormat.format("dd",   date)+"."+DateFormat.format("MM",   date)+"."+DateFormat.format("yyyy", date);
+                String drink_date=DateFormat.format("dd.MM.yyyy",   date)+"";
                 if(!curDate.equals(drink_date)){
                     curDate=drink_date;
-                    names.add(curDate);
-                    alco.add("");
-                    volume.add("");
-                    images.add(R.drawable.zz_calendar);
+                    DRINK_NAMES.add(curDate);
+                    ALCO_LEVEL.add("");
+                    VOLUME.add("");
+                    IMAGES.add(-1);
                 }
-                names.add(drink.getString("name"));
+                DRINK_NAMES.add(drink.getString("name"));
 
-                alco.add(date.getHours()+":"+(String.valueOf(date.getMinutes()).length()==1?"0"+String.valueOf(date.getMinutes()):String.valueOf(date.getMinutes())));
-                volume.add(drink.getString("quantity")+" l");
-                images.add(drink.getInt("icon"));
+                ALCO_LEVEL.add(DateFormat.format("HH:mm",   date)+"");
+                VOLUME.add(drink.getString("quantity")+" l");
+                IMAGES.add(drink.getInt("icon"));
             } catch (JSONException e) {
                 Toast.makeText(this,"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
             }
         }
-        DRINK_NAMES=getArrayString(names);
-        ALCO_LEVEL=getArrayString(alco);
-        VOLUME=getArrayString(volume);
-        IMAGES=getArrayInt(images);
-    }
 
-    private String[] getArrayString(List<String> array){
-        String[] arr=new String[array.size()];
-        for(int i=0;i<array.size();i++){
-            arr[i]=array.get(i);
-        }
-        return arr;
-    }
-    private int[] getArrayInt(List<Integer> array){
-        int[] arr=new int[array.size()];
-        for(int i=0;i<array.size();i++){
-            arr[i]=array.get(i);
-        }
-        return arr;
     }
 
     private void openAlert(){
@@ -170,7 +152,7 @@ public class AllConsumed extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return DRINK_NAMES.length;//size of list
+            return DRINK_NAMES.size();//size of list
         }
 
         @Override
@@ -192,12 +174,12 @@ public class AllConsumed extends AppCompatActivity {
             TextView alcolvl = (TextView)view.findViewById(R.id.list_item_alco);
             TextView volume = (TextView)view.findViewById(R.id.list_item_price);
 
-            if(IMAGES[i]!= R.drawable.zz_calendar) {
+            if(IMAGES.get(i)!= -1) {
                 remove.setImageResource(R.drawable.delete);
-                icon.setImageResource(IMAGES[i]);
-                drink.setText(DRINK_NAMES[i]);
-                alcolvl.setText(ALCO_LEVEL[i]);
-                volume.setText(VOLUME[i]);
+                icon.setImageResource(IMAGES.get(i));
+                drink.setText(DRINK_NAMES.get(i));
+                alcolvl.setText(ALCO_LEVEL.get(i));
+                volume.setText(VOLUME.get(i));
 
                 remove.setOnClickListener(new AdapterView.OnClickListener() {
                     @Override
@@ -219,10 +201,10 @@ public class AllConsumed extends AppCompatActivity {
                 remove.setImageResource(R.drawable.zz_empty);
                 icon.setImageResource(R.drawable.zz_empty);
                 icon.setLayoutParams( new LinearLayout.LayoutParams(50,50));
-                drink.setText(DRINK_NAMES[i]);
-                alcolvl.setText(ALCO_LEVEL[i]);
-                volume.setText(VOLUME[i]);
-                view.setBackgroundResource(R.drawable.rounded1);
+                drink.setText(DRINK_NAMES.get(i));
+                alcolvl.setText(ALCO_LEVEL.get(i));
+                volume.setText(VOLUME.get(i));
+                view.setBackgroundResource(R.drawable.zz_empty);
             }
             return view;
         }

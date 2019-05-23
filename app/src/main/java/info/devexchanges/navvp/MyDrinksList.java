@@ -184,6 +184,7 @@ public class MyDrinksList extends AppCompatActivity implements View.OnClickListe
             alcolvl.setText(ALCO_LEVEL[i]);
             volume.setText(VOLUME[i]);
 
+
             view.setOnClickListener(new AdapterView.OnClickListener(){
                 @Override
                 public void onClick(View view) {
