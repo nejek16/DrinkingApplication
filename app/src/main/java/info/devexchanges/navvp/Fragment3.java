@@ -45,10 +45,16 @@ public class Fragment3 extends Fragment {
     Button bt_liter033;
     Button bt_liter05;
     Button bt_liter1;
+
+    Button bt_alco1;
+    Button bt_alco2;
+    Button bt_alco3;
+    Button bt_alco4;
+    Button bt_alco5;
+
     EditText tx_quant;
     EditText tx_alcoLvl;
     EditText tx_price;
-    EditText tx_cal;
     EditText tx_drinkName;
     ImageView not_favourite;
     ImageView favourite;
@@ -178,7 +184,7 @@ public class Fragment3 extends Fragment {
 
             }
         });
-
+    //Quantity buttons
         bt_liter005=(Button)view.findViewById(R.id.bt_liters1);
         bt_liter005.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -224,16 +230,66 @@ public class Fragment3 extends Fragment {
             }
         });
 
+    //Alcohol lvl buttons
+        bt_alco1=(Button)view.findViewById(R.id.bt_alco1);
+        bt_alco1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco1);
+                changeAlcoVal(5);
+            }
+        });
+
+        bt_alco2=(Button)view.findViewById(R.id.bt_alco2);
+        bt_alco2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco2);
+                changeAlcoVal(10);
+            }
+        });
+
+        bt_alco3=(Button)view.findViewById(R.id.bt_alco3);
+        bt_alco3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco3);
+                changeAlcoVal(20);
+            }
+        });
+
+        bt_alco4=(Button)view.findViewById(R.id.bt_alco4);
+        bt_alco4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco4);
+                changeAlcoVal(40);
+            }
+        });
+
+        bt_alco5=(Button)view.findViewById(R.id.bt_alco5);
+        bt_alco5.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco5);
+                changeAlcoVal(60);
+            }
+        });
+
+
+
 
         tx_quant=(EditText) view.findViewById(R.id.edTx_quant);
         tx_alcoLvl=(EditText) view.findViewById(R.id.edTx_alcoLvl);
         tx_price=(EditText) view.findViewById(R.id.edTx_price);
-        tx_cal=(EditText) view.findViewById(R.id.edTx_kcal);
         tx_drinkName=(EditText) view.findViewById(R.id.edTx_drinkName);
     }
 
     private void changeQuantityVal(double value){
         tx_quant.setText(String.valueOf(value));
+    }
+    private void changeAlcoVal(double value){
+        tx_alcoLvl.setText(String.valueOf(value));
     }
 
     /**
@@ -246,7 +302,7 @@ public class Fragment3 extends Fragment {
             double quantity=Double.parseDouble(tx_quant.getText().toString());
             double alco=Double.parseDouble(tx_alcoLvl.getText().toString());
             double cost=tx_price.getText().length()==0?0.:Double.parseDouble(tx_price.getText().toString());
-            double kcal=tx_cal.getText().length()==0?0.:Double.parseDouble(tx_cal.getText().toString());
+            double kcal=0;
 
             if(name.length()>15){
                 Toast.makeText(getActivity(),"Name of drink too long!",Toast.LENGTH_LONG).show();

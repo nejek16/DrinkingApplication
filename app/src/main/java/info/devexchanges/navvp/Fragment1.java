@@ -139,7 +139,7 @@ public class Fragment1 extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText!="") {
+                if(!newText.isEmpty()) {
                     addQueryDrinks(newText);
                     favList.setAdapter(new Fragment1.CustomAdapterFav());
                     setSearchMode(View.GONE, 100000);

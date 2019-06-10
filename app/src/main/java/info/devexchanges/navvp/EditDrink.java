@@ -66,10 +66,16 @@ public class EditDrink extends AppCompatActivity {
     Button bt_liter033;
     Button bt_liter05;
     Button bt_liter1;
+
+    Button bt_alco1;
+    Button bt_alco2;
+    Button bt_alco3;
+    Button bt_alco4;
+    Button bt_alco5;
+
     EditText tx_quant;
     EditText tx_alcoLvl;
     EditText tx_price;
-    EditText tx_cal;
     EditText tx_drinkName;
     ImageView not_favourite;
     ImageView favourite;
@@ -201,6 +207,7 @@ public class EditDrink extends AppCompatActivity {
             }
         });
 
+        //Quantity buttons
         bt_liter005=(Button)findViewById(R.id.bt_liters1);
         bt_liter005.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -246,11 +253,56 @@ public class EditDrink extends AppCompatActivity {
             }
         });
 
+        //Alcohol lvl buttons
+        bt_alco1=(Button)findViewById(R.id.bt_alco1);
+        bt_alco1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco1);
+                changeAlcoVal(5);
+            }
+        });
+
+        bt_alco2=(Button)findViewById(R.id.bt_alco2);
+        bt_alco2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco2);
+                changeAlcoVal(10);
+            }
+        });
+
+        bt_alco3=(Button)findViewById(R.id.bt_alco3);
+        bt_alco3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco3);
+                changeAlcoVal(20);
+            }
+        });
+
+        bt_alco4=(Button)findViewById(R.id.bt_alco4);
+        bt_alco4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco4);
+                changeAlcoVal(40);
+            }
+        });
+
+        bt_alco5=(Button)findViewById(R.id.bt_alco5);
+        bt_alco5.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                animateBt(bt_alco5);
+                changeAlcoVal(60);
+            }
+        });
+
 
         tx_quant=(EditText) findViewById(R.id.edTx_quant);
         tx_alcoLvl=(EditText) findViewById(R.id.edTx_alcoLvl);
         tx_price=(EditText) findViewById(R.id.edTx_price);
-        tx_cal=(EditText) findViewById(R.id.edTx_kcal);
         tx_drinkName=(EditText) findViewById(R.id.edTx_drinkName);
     }
 
@@ -325,8 +377,6 @@ public class EditDrink extends AppCompatActivity {
             //Price
             tx_price.setText(jsn.getString("cost"));
 
-            //Calories
-            tx_cal.setText(jsn.getString("kcal"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -336,7 +386,9 @@ public class EditDrink extends AppCompatActivity {
     private void changeQuantityVal(double value){
         tx_quant.setText(String.valueOf(value));
     }
-
+    private void changeAlcoVal(double value){
+        tx_alcoLvl.setText(String.valueOf(value));
+    }
     /**
      Returns true if store successful
      */
@@ -347,7 +399,7 @@ public class EditDrink extends AppCompatActivity {
             double quantity=Double.parseDouble(tx_quant.getText().toString());
             double alco=Double.parseDouble(tx_alcoLvl.getText().toString());
             double cost=tx_price.getText().length()==0?0.:Double.parseDouble(tx_price.getText().toString());
-            double kcal=tx_cal.getText().length()==0?0.:Double.parseDouble(tx_cal.getText().toString());
+            double kcal=0;
 
             if(name.length()>15){
                 Toast.makeText(this,"Name of drink too long!",Toast.LENGTH_LONG).show();
