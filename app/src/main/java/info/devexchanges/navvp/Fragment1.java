@@ -1,21 +1,26 @@
 package info.devexchanges.navvp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +57,11 @@ public class Fragment1 extends Fragment {
     ListView conList;
     ListView favList;
 
+    SearchView search;
+
     int alcoID_tmp=-1;
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -71,6 +80,30 @@ public class Fragment1 extends Fragment {
         // LinearLayout contentFrag=(LinearLayout) view.findViewById(R.id.viewAddDrink);
         // contentFrag.setVisibility(View.GONE);
     }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
+
+    private void setSearchMode(int gone, int i) {
+        LinearLayout v = (LinearLayout) getActivity().findViewById(R.id.fragment_consumed_layout);
+        v.setVisibility(gone);
+        TextView tx = (TextView) getActivity().findViewById(R.id.txtConsumed);
+        TextView tx1 = (TextView) getActivity().findViewById(R.id.txtFavorites);
+        tx1.setVisibility(gone);
+        tx.setVisibility(gone);
+        View vv = (View) getActivity().findViewById(R.id.consumedList);
+        vv.setVisibility(gone);
+
+        LinearLayout fav_layout = (LinearLayout) getActivity().findViewById(R.id.fragment_favorite_layout);
+        ViewGroup.LayoutParams params = fav_layout.getLayoutParams();
+
+        params.height = i;
+        fav_layout.setLayoutParams(params);
+    }
+
     @Override
     public void onResume(){
         super.onResume();
@@ -78,6 +111,7 @@ public class Fragment1 extends Fragment {
         addConsumed();
         favList.setAdapter(new Fragment1.CustomAdapterFav());
         conList.setAdapter(new Fragment1.CustomAdapterCon());
+
     }
 
     TextView txtFavorites;
@@ -93,6 +127,43 @@ public class Fragment1 extends Fragment {
         txtFavorites.setText("Favorites");
         txtConsumed = (TextView) view.findViewById(R.id.txtConsumed);
         txtConsumed.setText("Consumed");
+
+        search=(SearchView) view.findViewById(R.id.search);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText!="") {
+                    addQueryDrinks(newText);
+                    favList.setAdapter(new Fragment1.CustomAdapterFav());
+                    setSearchMode(View.GONE, 100000);
+                }else{
+                    setSearchMode(View.VISIBLE, 0);
+                    addFavDrinks();
+                    addConsumed();
+                    favList.setAdapter(new Fragment1.CustomAdapterFav());
+                    conList.setAdapter(new Fragment1.CustomAdapterCon());
+                }
+
+                return false;
+            }
+        });
+        search.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                setSearchMode(View.VISIBLE, 0);
+                hideKeyboard();
+                return true;
+            }
+        });
+        
+
     }
 
     /**
@@ -100,6 +171,28 @@ public class Fragment1 extends Fragment {
      */
     private void addFavDrinks(){
         drinks=ds.getFavDrinks();
+        DRINK_NAMES=new String[drinks.size()];
+        ALCO_LEVEL=new String[drinks.size()];
+        VOLUME=new String[drinks.size()];
+        IMAGES=new int[drinks.size()];
+        for(int i=0;i<drinks.size();i++){
+            JSONObject drink=drinks.get(i);
+            try {
+                DRINK_NAMES[i]=drink.getString("name");
+                ALCO_LEVEL[i]=drink.getString("alco")+" %";
+                VOLUME[i]=drink.getString("quantity")+" l";
+                IMAGES[i]=drink.getInt("icon");
+            } catch (JSONException e) {
+                Toast.makeText(getActivity(),"ERROR: Try clearing data of application",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    /**
+     Adds drinks that contain query string to list
+     */
+    private void addQueryDrinks(String query){
+        drinks=ds.getQueryDrinks(query);
         DRINK_NAMES=new String[drinks.size()];
         ALCO_LEVEL=new String[drinks.size()];
         VOLUME=new String[drinks.size()];
@@ -194,6 +287,11 @@ public class Fragment1 extends Fragment {
                         addConsumed();
                         conList.setAdapter(new CustomAdapterCon());
                         Bac_level();
+                        setSearchMode(View.VISIBLE, 0);
+                        addFavDrinks();
+                        favList.setAdapter(new Fragment1.CustomAdapterFav());
+                        //search.setQuery("",false);
+                        hideKeyboard();
 
                     } catch (JSONException e) {
                         Toast.makeText(getActivity(),"ERROR: Something went wrong at adding consumed!",Toast.LENGTH_LONG).show();
