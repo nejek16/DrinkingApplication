@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView toolbarTxPro=(TextView)findViewById(R.id.promili);
         toolbarTxPro.setText(String.format("%.3f", Bac_level)+ " ‰");
 
-        if(Bac_level == 0){
+        if(Bac_level > 0){
             toolbarTxPro.setTextColor(getResources().getColor(R.color.green));
         }if(Bac_level > 0.08){
             toolbarTxPro.setTextColor(getResources().getColor(R.color.less_green));
