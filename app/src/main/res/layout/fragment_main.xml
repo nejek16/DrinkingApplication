@@ -5,6 +5,14 @@
     android:weightSum="2"
     >
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:id="@+id/search"
+        android:background="@drawable/rounded2"
+        />
+
     <TextView
         android:textSize="23dp"
         android:layout_marginLeft="5dp"
@@ -22,7 +30,9 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:id="@+id/fragment_favorite_layout"
+        >
 
             <ListView
                 android:id="@+id/favlist"
@@ -32,7 +42,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:id="@+id/consumedList"/>
     <TextView
         android:textSize="23dp"
         android:layout_marginLeft="5dp"

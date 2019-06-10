@@ -279,6 +279,23 @@ public class DataStorage {
         return allDrinks;
     }
 
+    public List<JSONObject> getQueryDrinks(String query){
+        query=query.toLowerCase();
+        List<JSONObject> allDrinks=new ArrayList<JSONObject>();
+        try {
+            JSONArray json =new JSONArray(readFile(drinks));
+            for(int i=0;i<json.length();i++){
+                if(json.getJSONObject(i).getString("name").toLowerCase().contains(query)){
+                    allDrinks.add(json.getJSONObject(i));
+                }
+            }
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            return null;
+        }
+        return allDrinks;
+    }
+
     public JSONObject getDrinkById(int ID){
         JSONObject drink=new JSONObject();
         try {

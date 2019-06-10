@@ -30,5 +30,6 @@
     <item
         android:id="@+id/clear"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:title="Clear data" />
+        android:title="Clear data"
+        android:visible="false"/>
 </menu>
