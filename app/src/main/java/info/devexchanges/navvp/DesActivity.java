@@ -87,8 +87,10 @@ public class DesActivity extends AppCompatActivity implements View.OnClickListen
                 dataStorage.setAge(age);
                 dataStorage.setGender(gender);
                 dataStorage.setWeight(weight);
-                Intent intent = new Intent(this, MainActivity.class);
+
+                Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
+
             } catch (Exception e) {
                 Toast.makeText(this, "Please input your information", Toast.LENGTH_LONG).show();
             }
