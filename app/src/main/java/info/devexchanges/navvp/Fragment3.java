@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-//import info.devexchanges.navvp.DataStorage;
 
 public class Fragment3 extends Fragment {
 
