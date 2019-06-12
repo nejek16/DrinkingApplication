@@ -61,8 +61,6 @@ public class Fragment2 extends Fragment {
         chart.setScaleEnabled(true);
 
 
-
-
         List<Entry> entries = new ArrayList<Entry>();
 
         List<Double> bac = new ArrayList<Double>();
