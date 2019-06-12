@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -48,10 +49,33 @@ public class Fragment2 extends Fragment {
     }
     Timestamp reference_timestamp = new Timestamp(0);
 
-
+    TextView tx_cost;
     private void init(View view) throws JSONException {
+        tx_cost=(TextView) getActivity().findViewById(R.id.tx_cost);
         Graph_values();
+        setCost();
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Graph_values();
+        setCost();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Graph_values();
+            setCost();
+        }
+    }
+
+    private void setCost(){
+        DataStorage ds=new DataStorage(getActivity());
+        tx_cost.setText("Cost: "+String.valueOf(ds.getSumTimedCost(1440)));
     }
 
     public String Graph_values(){
@@ -59,6 +83,8 @@ public class Fragment2 extends Fragment {
         chart.setTouchEnabled(true);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
+
+
 
 
         List<Entry> entries = new ArrayList<Entry>();
@@ -145,8 +171,8 @@ public class Fragment2 extends Fragment {
 
 
             //Timestamp tsober = new Timestamp(sober_time.getTime());
-           // Timestamp tsob = new Timestamp((tsober.getTime() -reference_timestamp.getTime())/10);
-           // entries.add(new Entry(tsob.getTime(),Bac_level));
+            // Timestamp tsob = new Timestamp((tsober.getTime() -reference_timestamp.getTime())/10);
+            // entries.add(new Entry(tsob.getTime(),Bac_level));
             LineDataSet set1 = new LineDataSet(entries,"BAC");
 
             set1.setCubicIntensity(0.0009f);
@@ -175,6 +201,6 @@ public class Fragment2 extends Fragment {
 
         String sober = sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes()));
         return sober;
-        }
-        //action bar
     }
+    //action bar
+}

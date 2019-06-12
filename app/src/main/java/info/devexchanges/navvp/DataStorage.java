@@ -193,6 +193,27 @@ public class DataStorage {
         }
         return allConsumed;
     }
+
+    public double getSumTimedCost(long minutes){
+       double cost=0;
+        try {
+            JSONArray json =new JSONArray(readFile(consumed));
+            for(int i=json.length()-1;i>=0;i--){
+                JSONObject cons=json.getJSONObject(i);
+                Date drinkTime=new Date(cons.getString("time"));
+                Calendar cur= Calendar.getInstance();
+                long t= cur.getTimeInMillis();
+                Date beforeTime=new Date(t - (minutes * 60000));
+                if(drinkTime.after(beforeTime)){
+                    cost+=json.getJSONObject(i).getDouble("cost");
+                }
+            }
+        } catch (JSONException e) {
+            Toast.makeText(context,"ERROR: Data storage failed, try clearing application data!",Toast.LENGTH_LONG).show();
+            return 0;
+        }
+        return cost;
+    }
     /**
      Gets id for new consumed
      */
