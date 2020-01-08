@@ -196,7 +196,7 @@ public class Fragment2 extends Fragment {
             chart.setData(lineData);
             chart.invalidate();
         } catch (Exception e) {
-            Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
 
         String sober = sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes()));

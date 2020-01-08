@@ -457,7 +457,7 @@ public class Fragment1 extends Fragment {
             long t= currentTime.getTime();
             sober_time=new Date(t + (min_sober * ONE_MINUTE_IN_MILLIS));
         } catch (Exception e) {
-            Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(),"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
         String sober = sober_time.getHours()+":"+(String.valueOf(sober_time.getMinutes()).length()==1?"0"+String.valueOf(sober_time.getMinutes()):String.valueOf(sober_time.getMinutes()));
         if(Bac_level <= 0){

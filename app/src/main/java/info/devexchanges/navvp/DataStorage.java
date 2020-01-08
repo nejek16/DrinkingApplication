@@ -84,7 +84,7 @@ public class DataStorage {
             json.put("age",age);
             writeFile(json.toString(),basicData);
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -94,7 +94,7 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return json.getInt("age");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return -1;
@@ -108,7 +108,7 @@ public class DataStorage {
             json.put("gender",s);
             writeFile(json.toString(),basicData);
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -118,7 +118,7 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return (char)json.getInt("gender");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return 'X';
@@ -140,7 +140,7 @@ public class DataStorage {
             JSONObject json =new JSONObject(readFile(basicData));
             return json.getDouble("weight");
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return -1;
@@ -159,7 +159,7 @@ public class DataStorage {
             json=json.put(new JSONObject("{\"alcoID\":"+alcoID+",\"time\":\""+time+"\",\"drinkID\":"+drinkID+",\"name\":\""+name+"\",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
             writeFile(json.toString(),consumed);
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
     }
     public void removeConsumed(int alcoID){
@@ -172,7 +172,7 @@ public class DataStorage {
             }
             writeFile(new JSONArray(allConsumed).toString(),consumed);
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
     }
     public List<JSONObject> getConsumed(){
@@ -240,7 +240,7 @@ public class DataStorage {
             }
             return json.getJSONObject(json.length()-1).getInt("alcoID")+1;
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return -1;
         }
 
@@ -256,7 +256,7 @@ public class DataStorage {
             writeFile(json.toString(),drinks);
             databaseSave(drink);
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -264,7 +264,8 @@ public class DataStorage {
     private void databaseSave(JSONObject drink) throws JSONException {
         RequestQueue requestQueue = Volley.newRequestQueue(this.context);
         String URL = "https://isalcotrackerapi.azurewebsites.net/api/Drinks";
-        drink.put("icon",null);
+        drink.put("icon",drink.getString("icon"));
+        drink.put("alcoholLevel",drink.getDouble("alco"));
         drink.put("drinkID",null);
         final String mRequestBody = drink.toString();
         Log.i("LOG_VOLLEY", mRequestBody);
@@ -311,6 +312,95 @@ public class DataStorage {
         requestQueue.add(stringRequest);
     }
 
+
+    private void databaseUpdate(JSONObject drink) throws JSONException {
+        RequestQueue requestQueue = Volley.newRequestQueue(this.context);
+        String URL = "https://isalcotrackerapi.azurewebsites.net/api/Drinks/"+drink.getInt("drinkID");
+        drink.put("icon",drink.getString("icon"));
+        drink.put("alcoholLevel",drink.getDouble("alco"));
+        final String mRequestBody = drink.toString();
+        Log.i("LOG_VOLLEY", mRequestBody);
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("LOG_VOLLEY", response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                    return null;
+                }
+            }
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ApiKey","SecretKey");
+                return params;
+            }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void databaseDelete(int id) throws JSONException {
+        RequestQueue requestQueue = Volley.newRequestQueue(this.context);
+        String URL = "https://isalcotrackerapi.azurewebsites.net/api/Drinks/"+id;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("LOG_VOLLEY", response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ApiKey","SecretKey");
+                return params;
+            }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
     public void removeDrink(int drinkID){
         try {
             List<JSONObject> allDrinks=getDrinks();
@@ -320,8 +410,9 @@ public class DataStorage {
                 }
             }
             writeFile(new JSONArray(allDrinks).toString(),drinks);
+            databaseDelete(drinkID);
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
         }
     }
     public List<JSONObject> getDrinks(){
@@ -332,7 +423,7 @@ public class DataStorage {
                 allDrinks.add(json.getJSONObject(i));
             }
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return null;
         }
         return allDrinks;
@@ -345,7 +436,7 @@ public class DataStorage {
             }
             return json.getJSONObject(json.length()-1).getInt("drinkID")+1;
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return -1;
         }
 
@@ -360,7 +451,7 @@ public class DataStorage {
                 }
             }
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return null;
         }
         return allDrinks;
@@ -377,7 +468,7 @@ public class DataStorage {
                 }
             }
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return null;
         }
         return allDrinks;
@@ -394,7 +485,7 @@ public class DataStorage {
                 }
             }
         } catch (JSONException e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return null;
         }
         return drink;
@@ -410,9 +501,10 @@ public class DataStorage {
                 }
             }
             writeFile(new JSONArray(allDrinks).toString(),drinks);
+            databaseUpdate(json);
             return true;
         } catch (Exception e) {
-            Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
+          //Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return false;
         }
     }
