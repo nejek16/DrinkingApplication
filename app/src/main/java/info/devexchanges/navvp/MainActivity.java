@@ -10,17 +10,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -29,13 +40,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private TabLayout tabLayout;
     private String[] pageTitle = {"Home", "Statistics", "Add new drink"};
+    private DataStorage dataStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataStorage = new DataStorage(this);
+        getApiData();
+
         setContentView(R.layout.activity_main);
 
-        DataStorage dataStorage = new DataStorage(this);
+
         if(dataStorage.isFirstOpen()){
             Intent intent = new Intent(this, DesActivity.class);
             startActivity(intent);
@@ -96,7 +111,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+    //Gtes data form Api and inserts it into file
+    protected void getApiData()
+    {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
+        String url = "https://isalcotrackerapi.azurewebsites.net/api/Drinks";
+        JsonArrayRequest request = new JsonArrayRequest(url, jsonArrayListener, errorListener){
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ApiKey","SecretKey");
+                return params;
+            }
+        };
+        requestQueue.add(request);
+
+
+    }
+    private Response.ErrorListener errorListener = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.d("REST error", error.getMessage());
+        }
+    };
+
+    private Response.Listener<JSONArray> jsonArrayListener = new Response.Listener<JSONArray>() {
+        @Override
+        public void onResponse(JSONArray response) {
+
+            dataStorage.writeFile(response.toString(),"ATdrinks.json");
+        }
+    };
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();

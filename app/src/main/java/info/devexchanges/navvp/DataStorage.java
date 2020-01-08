@@ -1,7 +1,19 @@
 package info.devexchanges.navvp;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,10 +26,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -236,13 +251,64 @@ public class DataStorage {
         try {
             int drinkID=getIdDrink();
             JSONArray json =new JSONArray(readFile(drinks));
-            json=json.put(new JSONObject("{\"drinkID\":"+drinkID+",\"name\":\""+name+"\",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}"));
+            JSONObject drink = new JSONObject("{\"drinkID\":"+drinkID+",\"name\":\""+name+"\",\"alco\": "+alco+",\"icon\": "+icon+",\"favorite\": "+favorite+",\"quantity\":"+quantity+",\"cost\": "+cost+",\"kcal\":"+kcal+"}");
+            json=json.put(drink);
             writeFile(json.toString(),drinks);
+            databaseSave(drink);
         } catch (JSONException e) {
             Toast.makeText(context,"ERROR: Data storage failed!",Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
+    }
+    private void databaseSave(JSONObject drink) throws JSONException {
+        RequestQueue requestQueue = Volley.newRequestQueue(this.context);
+        String URL = "https://isalcotrackerapi.azurewebsites.net/api/Drinks";
+        drink.put("icon",null);
+        drink.put("drinkID",null);
+        final String mRequestBody = drink.toString();
+        Log.i("LOG_VOLLEY", mRequestBody);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("LOG_VOLLEY", response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                    return null;
+                }
+            }
+            @Override
+            public Map<String,String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ApiKey","SecretKey");
+                return params;
+            }
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                String responseString = "";
+                if (response != null) {
+                    responseString = String.valueOf(response.statusCode);
+                }
+                return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 
     public void removeDrink(int drinkID){
@@ -351,7 +417,7 @@ public class DataStorage {
         }
     }
 
-    private void writeFile(String text,String path) {
+    public void writeFile(String text,String path) {
 
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(path, MODE_PRIVATE);
