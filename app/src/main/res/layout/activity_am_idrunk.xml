@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white"
+        app:title="Am I Drunk?"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/but_StartTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rounded1"
+                android:onClick="onStartClick"
+                android:padding="14dp"
+                android:text="Start test"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/timeDrunk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="Click Start TEST"
+                android:textSize="14dp"
+                android:textColor="#fff"/>
+
+
+        </TableRow>
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:text="When you start the test, at random time in 5 seconds a button will appear and you have to press it"
+            android:textSize="16dp"
+            android:textColor="#fff"/>
+
+        <Button
+            android:id="@+id/but_butFinishTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded1"
+            android:onClick="onFinishClick"
+            android:padding="14dp"
+            android:text="CLICK ME !!!"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="16dp" />
+
+    </TableLayout>
+
+
+</LinearLayout>

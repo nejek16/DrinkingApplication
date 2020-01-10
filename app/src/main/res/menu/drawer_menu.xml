@@ -22,6 +22,9 @@
         android:id="@+id/AllConsumed"
         android:title="All consumed" />
     <item
+        android:id="@+id/AmIDrunk"
+        android:title="Am I Drunk?" />
+    <item
         android:id="@+id/clear"
         android:title="Clear data"
         android:visible="false"/>
